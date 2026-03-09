@@ -22,7 +22,7 @@ Validar o Problem-Solution Fit com pequenos comerciantes e provar que a integra�
 
 ## Principais Entregas
 
-- MVP **mobile-first e web** com fluxo básico de PDV
+- MVP **web** com fluxo básico de PDV
 - Cadastro de usuários com **perfis (Owner, Manager, Cashier)**
 - Login seguro com e-mail e senha forte
 - Cadastro de produtos com nome, código e estoque
@@ -33,6 +33,7 @@ Validar o Problem-Solution Fit com pequenos comerciantes e provar que a integra�
 - Sistema de **logs de acesso e auditoria básica**
 - **Dashboard simples** de vendas mensais e lucro estimado
 - Pesquisa rápida de produtos no PDV
+
 
 ## Métricas de Validação
 
@@ -54,10 +55,11 @@ Validar o Problem-Solution Fit com pequenos comerciantes e provar que a integra�
 
 **Foco Estratégico:**  
 Aumentar a confiabilidade da operação e resolver problemas reais de controle de estoque e recebimento de mercadorias.
+Inicio da monetização da EstoquePay com Assinaturas para uso da demais funcionalidade sem limites
 
 ## Principais Entregas
 
-- **Agendamento de entregas de estoque** com data prevista
+- **Agendamento de entregas de estoque** com data prevista (premium)
 - Confirmação de entrega **completa ou parcial**
 - Edição de quantidades recebidas por caixa ou gerente
 - Alertas automáticos de **estoque baixo**
@@ -65,6 +67,8 @@ Aumentar a confiabilidade da operação e resolver problemas reais de controle d
 - Registro detalhado de **perdas, quebras e inventário**
 - Controle de permissões mais granular entre Manager e Cashier
 - Histórico detalhado de movimentações de estoque
+- Assinatura Premium do EstoquePay, oferecendo mais funcionalidades do sistema
+- Assinutura disponível na própria aplicação via pagamento como assinatura Mensal\Anual
 
 ## Métricas de Validação
 
@@ -172,4 +176,5 @@ Transformar o StockPay em uma plataforma central de gestão e crescimento para p
 
 - Experimentos de recomendação com grupos de teste
 - Análise contínua de comportamento de compra
+
 - Feedback de lojistas sobre impacto na margem de lucro
