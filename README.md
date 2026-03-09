@@ -1,1 +1,6 @@
-# 2026_1_PA1_AB_EstoquePay
+Grupo:
+Arthur Yunes
+Gustavo Martins Rodrigues
+Gabriel Brandão
+Gabriel felix
+Gustavo Xavier
