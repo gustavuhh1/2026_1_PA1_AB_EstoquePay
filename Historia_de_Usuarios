@@ -1853,7 +1853,247 @@ Esse fluxo foi otimizado para:
 * **Feedback imediato**
 
 
+#ROBERTO
+---
 
+# 🔐 1. Touchpoint: Tela de Login → Acesso ao sistema
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Roberto — empreendedor em transição do manual para digital
+* **Eu quero** acessar o sistema pela primeira vez usando meus dados
+* **Para** começar a usar sem complicação e sentir que o sistema é simples
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura (Mobile First / Simples)
+
+**Título:**
+
+* “Bem-vindo ao seu negócio digital”
+
+**Subtítulo:**
+
+* “Entre com seu e-mail e senha para começar”
+
+**Campos de entrada:**
+
+* **E-mail**
+
+  * Placeholder: “Digite seu e-mail”
+  * Validação básica: formato de e-mail válido
+
+* **Senha**
+
+  * Placeholder: “Digite sua senha”
+  * Opção “mostrar/ocultar”
+
+**Ações principais:**
+
+* Botão: “Entrar” (primário)
+* Link secundário: “Esqueci minha senha”
+
+**Feedback e otimizações:**
+
+* Carregamento rápido, indicador visual ao clicar em Entrar
+* Mensagem de erro clara se credenciais inválidas
+
+**Elemento emocional:**
+
+* “Você está seguro e pode começar seu negócio digital sem complicação”
+
+---
+
+### 🧩 Wireframe
+
+```id="roberto_login"
+Bem-vindo ao seu negócio digital
+Digite seu e-mail e senha para começar
+
+[E-mail]
+[Senha 👁️]
+
+[ Entrar ]
+Esqueci minha senha
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Roberto acessa o sistema pela primeira vez
+
+* **Quando** insere e-mail e senha válidos
+
+* **E** toca em “Entrar”
+
+* **Então** o sistema autentica e exibe o dashboard inicial
+
+* **Dado que** ele informa dados incorretos
+
+* **Quando** envia o formulário
+
+* **Então** o sistema exibe mensagem clara de erro e permite nova tentativa
+
+---
+
+# 🛒 2. Touchpoint: Dashboard → Menu Produtos → Novo Produto → Inserir dados
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Roberto
+* **Eu quero** cadastrar meus primeiros produtos com nome, código e estoque
+* **Para** começar a organizar meu negócio digitalmente e ter confiança no sistema
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura
+
+**Dashboard inicial:**
+
+* Painéis simples com: “Produtos”, “Vendas”, “Estoque”
+
+**Menu Produtos:**
+
+* Acesso fácil via botão ou menu lateral
+
+**Tela Novo Produto:**
+
+**Campos:**
+
+* Nome do produto
+* Código (opcional)
+* Estoque inicial
+
+**Ações:**
+
+* Botão “Salvar”
+* Feedback visual de sucesso após cadastro
+
+**Elemento emocional:**
+
+* “Estou organizando meu mercadinho digitalmente, sem medo de errar”
+
+---
+
+### 🧩 Wireframe
+
+```id="roberto_produtos"
+Novo Produto
+
+Nome do produto
+Código
+Estoque inicial
+
+[ Salvar ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Roberto acessou a tela de cadastro
+
+* **Quando** preenche todos os campos obrigatórios
+
+* **E** toca em “Salvar”
+
+* **Então** o produto é registrado no sistema
+
+* **E** aparece mensagem de confirmação
+
+* **Dado que** algum campo obrigatório não foi preenchido
+
+* **Quando** tenta salvar
+
+* **Então** o sistema mostra alerta de erro e não salva
+
+---
+
+# 💳 3. Touchpoint: Menu PDV → Buscar produto → Adicionar ao carrinho → Selecionar pagamento → Confirmar venda
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Roberto
+* **Eu quero** registrar minhas primeiras vendas adicionando produtos ao carrinho e escolhendo forma de pagamento
+* **Para** substituir o controle manual e perceber que o sistema facilita minha vida
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Tela PDV
+
+**Campo de busca de produtos:**
+
+* Placeholder: “Buscar produto ou código”
+* Busca por nome ou código de barra
+
+**Carrinho:**
+
+* Lista de produtos adicionados
+* Quantidade ajustável
+* Remover item
+
+**Formas de pagamento:**
+
+* Dinheiro
+* Cartão
+* PIX
+
+**Ações principais:**
+
+* “Finalizar venda”
+* Feedback de sucesso: “Venda registrada com sucesso”
+
+**Elemento emocional:**
+
+* “Sinto que finalmente estou substituindo o papel e caneta por algo confiável”
+
+---
+
+### 🧩 Wireframe
+
+```id="roberto_pdv"
+[ Buscar produto... ]
+
+Carrinho vazio
+
+Produtos adicionados:
+Arroz 5kg x2
+Leite x1
+
+Total: R$ 37,00
+
+[ Dinheiro ] [ Cartão ] [ PIX ]
+[ Finalizar venda ]
+
+✅ Venda registrada com sucesso
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Roberto selecionou produtos e adicionou ao carrinho
+
+* **Quando** escolhe a forma de pagamento e confirma
+
+* **Então** o sistema registra a venda corretamente
+
+* **E** exibe mensagem de sucesso
+
+* **Dado que** tenta finalizar sem produtos
+
+* **Quando** toca em “Finalizar venda”
+
+* **Então** o sistema alerta que o carrinho está vazio
+
+---
 
 
 
