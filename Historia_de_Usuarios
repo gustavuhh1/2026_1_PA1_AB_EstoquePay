@@ -749,3 +749,763 @@ Cadastrou produto
 * **Quando** ele visualiza o histórico detalhado de ações
 * **Então** ele entende que todas as atividades são rastreadas
 * **E** sente maior confiança na integridade do sistema
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### FASE 2 
+
+CARLOS
+
+# 🔐 1. Touchpoint: Tela de Login
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos — dono de pequeno varejo tradicional
+* **Eu quero** acessar o sistema de forma rápida e sem complicações através da tela de login
+* **Para** entrar rapidamente e verificar a situação do estoque da minha loja
+
+---
+
+## 2. Detalhes da Tela (Informações na tela e Protótipo Conceitual)
+
+### 📱 Estrutura Geral (Mobile First)
+
+**Topo:**
+
+* Logo do sistema
+* Nome do sistema
+
+**Título:**
+
+* “Acesse sua conta”
+
+**Subtítulo:**
+
+* “Entre para acompanhar seu estoque e sua loja”
+
+---
+
+### 🔐 Campos
+
+1. **E-mail**
+
+   * Placeholder: “Digite seu e-mail”
+   * Teclado otimizado (com @)
+   * Validação: obrigatório e formato válido
+
+2. **Senha**
+
+   * Placeholder: “Digite sua senha”
+   * Campo com opção “mostrar/ocultar 👁️”
+   * Validação: obrigatório
+
+---
+
+### 🎯 Ações
+
+* **Botão primário:**
+
+  * “Entrar”
+  * Estado loading ao clicar
+
+* **Link secundário:**
+
+  * “Esqueci minha senha”
+
+---
+
+### ⚡ Otimizações de velocidade (UX crítico)
+
+* Login persistente (manter sessão ativa)
+* Preenchimento automático (se permitido)
+* Tempo de resposta rápido com feedback visual imediato
+
+---
+
+### 🧭 Feedback
+
+* Erro:
+
+  * “E-mail ou senha não conferem”
+* Loading:
+
+  * Indicador claro (spinner ou skeleton)
+
+---
+
+### 🧠 Elemento emocional
+
+* Texto:
+
+  * “Acesse com segurança e controle sua loja em segundos”
+
+---
+
+### 🧩 Wireframe mental
+
+```id="login01"
+[Logo]
+
+Acesse sua conta
+
+[E-mail            ]
+[Senha        👁️  ]
+
+[ Entrar ]
+
+Esqueci minha senha
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+### ✅ Login rápido com sucesso
+
+* **Dado que** Carlos está na tela de login
+* **Quando** ele insere e-mail e senha válidos
+* **E** toca em “Entrar”
+* **Então** o sistema autentica rapidamente
+* **E** redireciona para o Dashboard do Owner
+
+---
+
+### ⚡ Performance percebida
+
+* **Dado que** Carlos deseja acessar rapidamente
+* **Quando** ele realiza o login
+* **E** o sistema processa os dados
+* **Então** o tempo de resposta deve ser curto
+* **E** deve haver feedback visual de carregamento
+
+---
+
+### ❌ Erro de credenciais
+
+* **Dado que** Carlos informa dados incorretos
+* **Quando** tenta acessar
+* **E** envia o formulário
+* **Então** o sistema exibe erro claro
+* **E** mantém o usuário na tela
+
+---
+
+---
+
+# 📊 2. Touchpoint: Dashboard do Owner
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos — dono de pequeno varejo tradicional
+* **Eu quero** visualizar rapidamente os principais indicadores de estoque e alertas no dashboard
+* **Para** entender a situação da minha loja e agir rapidamente antes que faltem produtos
+
+---
+
+## 2. Detalhes da Tela (Informações na tela e Protótipo Conceitual)
+
+### 📱 Estrutura Geral (Mobile First)
+
+**Topo:**
+
+* Saudação:
+
+  * “Olá, Carlos 👋”
+* Data:
+
+  * “Resumo de hoje”
+
+---
+
+### 📦 Seção principal: Estoque (prioridade alta)
+
+**Card 1: Visão geral do estoque**
+
+* Título: “Estoque atual”
+* Indicador:
+
+  * “120 produtos cadastrados”
+* Subtexto:
+
+  * “5 com estoque baixo”
+
+---
+
+**Card 2: Alerta de estoque baixo (destaque visual)** 🚨
+
+* Título: “Atenção: produtos acabando”
+* Lista curta:
+
+  * “Arroz 5kg — 3 unidades”
+  * “Leite — 5 unidades”
+* Cor de destaque (amarelo/vermelho)
+
+---
+
+### 📊 Seção complementar
+
+* **Resumo rápido:**
+
+  * Produtos sem estoque
+  * Produtos críticos
+
+---
+
+### 🎯 Ações principais
+
+* Botão:
+
+  * “Ver estoque completo”
+* Botão:
+
+  * “Repor produtos”
+
+---
+
+### 🧭 Feedback e estados
+
+* **Sem alertas:**
+
+  * “Seu estoque está em dia ✅”
+
+* **Carregando:**
+
+  * Skeleton dos cards
+
+---
+
+### 🧠 Elementos emocionais
+
+* Mensagem dinâmica:
+
+  * “Fique tranquilo, você está no controle do seu estoque”
+  * ou
+  * “Atenção: evite perder vendas por falta de produtos”
+
+---
+
+### 🧩 Wireframe mental
+
+```id="dash02"
+Olá, Carlos 👋
+
+[ Estoque atual ]
+120 produtos
+5 com estoque baixo
+
+[ ⚠️ Produtos acabando ]
+Arroz — 3
+Leite — 5
+
+[ Ver estoque completo ]
+[ Repor produtos ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+### ✅ Visualização rápida de estoque
+
+* **Dado que** Carlos fez login com sucesso
+* **Quando** ele acessa o dashboard
+* **E** a tela é carregada
+* **Então** o sistema exibe indicadores de estoque
+* **E** destaca produtos com baixo estoque
+
+---
+
+### 🚨 Exibição de alertas
+
+* **Dado que** existem produtos com estoque baixo
+* **Quando** o dashboard é exibido
+* **E** os dados são carregados
+* **Então** o sistema mostra alertas visuais claros
+* **E** lista os itens críticos
+
+---
+
+### ⚠️ Sem produtos críticos
+
+* **Dado que** não há produtos com estoque baixo
+* **Quando** Carlos acessa o dashboard
+* **E** visualiza os indicadores
+* **Então** o sistema exibe mensagem positiva
+* **E** não apresenta alertas
+
+---
+
+### 🔄 Atualização de dados
+
+* **Dado que** o estoque foi atualizado recentemente
+* **Quando** Carlos acessa ou atualiza o dashboard
+* **E** os dados são carregados
+* **Então** as informações exibidas refletem o estado atual
+
+---
+
+### ⚡ Leitura rápida (usabilidade)
+
+* **Dado que** Carlos tem pouco tempo
+* **Quando** ele acessa o dashboard
+* **E** visualiza a tela
+* **Então** ele consegue identificar rapidamente:
+
+  * Situação geral do estoque
+  * Produtos críticos
+* **E** entende se precisa agir imediatamente
+
+---
+
+# 🚨 1. Touchpoint: Card de Alerta de Estoque
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos — dono de pequeno varejo tradicional
+* **Eu quero** visualizar alertas claros de produtos com estoque baixo no dashboard
+* **Para** identificar rapidamente o que precisa ser reposto e evitar falta de produtos
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura (componente dentro do Dashboard)
+
+**Card destacado (alto contraste):**
+
+* Título: “⚠️ Estoque baixo”
+* Subtítulo:
+
+  * “Alguns produtos estão acabando”
+
+**Lista resumida (máx. 3 itens):**
+
+* Produto + quantidade atual
+
+  * “Arroz 5kg — 3 un.”
+  * “Leite — 5 un.”
+
+**Indicadores visuais:**
+
+* Vermelho: crítico (0–3)
+* Amarelo: baixo
+
+---
+
+### 🎯 Ações
+
+* Botão:
+
+  * “Ver todos”
+* Ação rápida:
+
+  * “Repor agora”
+
+---
+
+### 🧠 Elemento emocional
+
+* Mensagem:
+
+  * “Evite perder vendas por falta de produtos”
+
+---
+
+### 🧩 Wireframe
+
+```id="alert01"
+⚠️ Estoque baixo
+
+Arroz — 3
+Leite — 5
+
+[ Ver todos ]
+[ Repor agora ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** existem produtos com estoque baixo
+* **Quando** Carlos acessa o dashboard
+* **E** visualiza o card
+* **Então** o sistema exibe os produtos críticos
+* **E** destaca visualmente a urgência
+
+---
+
+* **Dado que** Carlos deseja mais detalhes
+* **Quando** ele toca em “Ver todos”
+* **E** continua a navegação
+* **Então** o sistema redireciona para a lista completa de produtos
+
+---
+
+---
+
+# 📦 2. Touchpoint: Menu Estoque
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos
+* **Eu quero** acessar facilmente a área de estoque pelo menu principal
+* **Para** visualizar e gerenciar os produtos que precisam reposição
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura
+
+**Menu (fixo ou hambúrguer):**
+
+* Item: “Estoque” (com ícone 📦)
+
+**Indicador contextual:**
+
+* Badge:
+
+  * “5” (quantidade de itens críticos)
+
+---
+
+### 🎯 Comportamento
+
+* Clique leva para:
+
+  * Tela Lista de Produtos
+
+---
+
+### 🧠 Elemento emocional
+
+* Sensação de acesso rápido:
+
+  * “Tudo do estoque em um só lugar”
+
+---
+
+### 🧩 Wireframe
+
+```id="menu01"
+☰ Menu
+
+Dashboard
+📦 Estoque (5)
+Vendas
+Relatórios
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Carlos está no sistema
+* **Quando** ele abre o menu
+* **E** visualiza a opção “Estoque”
+* **Então** o sistema exibe a opção claramente
+
+---
+
+* **Dado que** existem produtos críticos
+* **Quando** o menu é exibido
+* **E** há itens com estoque baixo
+* **Então** o sistema mostra um indicador numérico
+
+---
+
+* **Dado que** Carlos deseja acessar o estoque
+* **Quando** ele toca em “Estoque”
+* **E** navega
+* **Então** o sistema abre a tela de lista de produtos
+
+---
+
+---
+
+# 📋 3. Touchpoint: Tela Lista de Produtos
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos
+* **Eu quero** visualizar a lista de produtos com indicação clara de estoque
+* **Para** identificar rapidamente quais itens estão acabando
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura
+
+**Topo:**
+
+* Título: “Estoque”
+
+---
+
+### 🔍 Busca
+
+* Campo:
+
+  * “Buscar produto”
+
+---
+
+### 📋 Lista
+
+Cada item contém:
+
+* Nome do produto
+* Quantidade em estoque
+* Status visual:
+
+  * 🔴 Crítico
+  * 🟡 Baixo
+  * 🟢 Normal
+
+---
+
+### 🎯 Ações
+
+* Filtro:
+
+  * “Apenas estoque baixo”
+* Ordenação:
+
+  * Menor quantidade primeiro
+
+---
+
+### 🧠 Elemento emocional
+
+* Clareza:
+
+  * “Veja rapidamente o que precisa de atenção”
+
+---
+
+### 🧩 Wireframe
+
+```id="list01"
+Estoque
+
+[ Buscar... ]
+
+Arroz — 3 🔴
+Leite — 5 🟡
+Refrigerante — 20 🟢
+
+[Filtro: Estoque baixo]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Carlos acessa a lista
+* **Quando** os produtos são exibidos
+* **E** a tela é carregada
+* **Então** o sistema mostra nome e quantidade
+
+---
+
+* **Dado que** existem produtos com estoque baixo
+* **Quando** a lista é exibida
+* **E** Carlos visualiza os itens
+* **Então** o sistema destaca os produtos críticos
+
+---
+
+* **Dado que** Carlos deseja focar nos críticos
+* **Quando** aplica o filtro
+* **E** atualiza a lista
+* **Então** o sistema mostra apenas produtos com estoque baixo
+
+---
+
+---
+
+# 🚚 4. Touchpoint: Tela Agendamento de Entrega
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos
+* **Eu quero** agendar entregas de reposição de produtos
+* **Para** garantir que meu estoque seja reabastecido no tempo certo
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura
+
+**Título:**
+
+* “Agendar Entrega”
+
+---
+
+### 🧾 Campos
+
+* Fornecedor
+* Produtos (seleção múltipla)
+* Quantidade
+* Data da entrega
+* Horário (opcional)
+* Observações
+
+---
+
+### 🎯 Ações
+
+* Botão:
+
+  * “Salvar entrega”
+
+---
+
+### 🧠 Elemento emocional
+
+* “Organize seu abastecimento com antecedência”
+
+---
+
+### 🧩 Wireframe
+
+```id="sched01"
+Agendar Entrega
+
+Fornecedor
+Produtos
+Quantidade
+Data
+
+[ Salvar entrega ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Carlos está na tela de agendamento
+* **Quando** ele preenche fornecedor, produtos e data
+* **E** salva
+* **Então** o sistema registra a entrega
+
+---
+
+* **Dado que** faltam campos obrigatórios
+* **Quando** tenta salvar
+* **E** envia
+* **Então** o sistema bloqueia e exibe erros
+
+---
+
+---
+
+# 📅 5. Touchpoint: Tela Agenda de Entregas
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos
+* **Eu quero** visualizar as entregas agendadas em ordem de data
+* **Para** saber quando meu estoque será reabastecido
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura
+
+**Título:**
+
+* “Agenda de Entregas”
+
+---
+
+### 📋 Lista
+
+* Fornecedor
+* Data
+* Status:
+
+  * Agendada / Entregue / Atrasada
+
+---
+
+### 🎯 Ações
+
+* “+ Nova entrega”
+* “Marcar como entregue”
+
+---
+
+### 🧠 Elemento emocional
+
+* “Tenha previsibilidade do seu estoque”
+
+---
+
+### 🧩 Wireframe
+
+```id="agenda01"
+Agenda de Entregas
+
+ABC - 20 Mar 🟡
+XYZ - 18 Mar 🔴
+
+[ + Nova entrega ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** existem entregas cadastradas
+* **Quando** Carlos acessa a agenda
+* **E** visualiza a tela
+* **Então** o sistema mostra as entregas por data
+
+---
+
+* **Dado que** uma entrega está atrasada
+* **Quando** a data passou
+* **E** não foi concluída
+* **Então** o sistema marca como “Atrasada”
+
+---
+
+* **Dado que** Carlos deseja atualizar status
+* **Quando** marca como entregue
+* **E** confirma
+* **Então** o sistema atualiza o status
+
