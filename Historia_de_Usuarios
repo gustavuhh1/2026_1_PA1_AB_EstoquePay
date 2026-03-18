@@ -754,6 +754,1108 @@ Cadastrou produto
 
 
 
+## ANA
+1. História de Usuário ANA (Narrativa)
+
+Como Ana — gerente de loja de pequeno/médio porte
+
+Eu quero ajustar rapidamente a quantidade de um produto diretamente pela tela de edição
+
+Para corrigir divergências entre o estoque físico e o sistema sem perder o controle da operação
+
+2. Detalhes da Tela + Wireframe (Mobile First)
+📱 Nome da Tela: Ajustar Estoque
+🧩 Wireframe Conceitual (Low-Fidelity)
+┌──────────────────────────────┐
+│ ← Ajustar Estoque            │
+│ Atualize a quantidade real   │
+├──────────────────────────────┤
+
+│ 📦 Camiseta Básica Preta     │
+│ SKU: #12345                  │
+│                              │
+│ Estoque atual:               │
+│        12 unidades           │
+│                              │
+├──────────────────────────────┤
+
+│ Nova Quantidade              │
+│ ┌──────────────────────────┐ │
+│ │  [   15               ]  │ │
+│ └──────────────────────────┘ │
+│                              │
+│ 🔄 Diferença: +3 unidades    │
+│                              │
+├──────────────────────────────┤
+
+│ Motivo do ajuste (opcional)  │
+│ ┌──────────────────────────┐ │
+│ │ Inventário manual   ▼    │ │
+│ └──────────────────────────┘ │
+│                              │
+│ ⚠ Será registrado no histórico │
+│                              │
+├──────────────────────────────┤
+
+│ [ Cancelar ]   [ Registrar ] │
+│                Ajuste        │
+└──────────────────────────────┘
+🎯 Explicação de UX (Decisões de Design)
+1. Hierarquia Visual
+
+Produto + estoque atual → topo (contexto)
+
+Campo de ação → centro (foco)
+
+Botão → base (ação)
+
+2. Redução de Erro (Crítico)
+
+Diferença calculada automaticamente:
+
+Evita erro cognitivo
+
+Dá segurança para decisão rápida
+
+3. Mobile Optimization
+
+Input grande (fácil digitação)
+
+Botão fixo na base
+
+Espaçamento amplo (uso em ambiente de loja)
+
+4. Feedback em Tempo Real
+
+Atualização instantânea da diferença
+
+Validação inline (sem precisar submeter)
+
+🧾 Elementos da Tela (Detalhados)
+🔝 Header
+
+Título: Ajustar Estoque
+
+Subtítulo: Atualize a quantidade real
+
+Botão voltar
+
+📦 Card do Produto
+
+Nome do produto
+
+SKU
+
+Estoque atual (destaque visual)
+
+✏️ Input Principal
+
+Tipo: Numérico
+
+Label: Nova Quantidade
+
+Placeholder: “Digite a quantidade real”
+
+🔄 Feedback Dinâmico
+
+Texto automático:
+
++X unidades (verde)
+
+-X unidades (vermelho)
+
+📝 Motivo do Ajuste
+
+Dropdown ou input livre
+
+Opcional, mas recomendado
+
+⚠ Aviso
+
+“Esse ajuste será registrado no histórico”
+
+🎯 Ações
+
+Primária: Registrar Ajuste
+
+Secundária: Cancelar
+
+3. Critérios de Aceitação (BDD)
+✅ Cenário — Ajuste com sucesso
+
+Dado que Ana está logada e acessou um produto
+
+Quando ela informa uma nova quantidade válida
+
+E clica em “Registrar Ajuste”
+
+Então o sistema deve:
+
+Atualizar o estoque
+
+Registrar o histórico
+
+Exibir feedback de sucesso
+
+Retornar à lista ou manter com confirmação
+
+⚠️ Cenário — Campo vazio
+
+Dado que Ana está na tela de ajuste
+
+Quando tenta salvar sem preencher a quantidade
+
+Então o sistema deve:
+
+Exibir erro visual
+
+Impedir envio
+
+⚠️ Cenário — Valor inválido
+
+Dado que Ana insere valor inválido
+
+Quando o sistema detecta erro
+
+Então deve:
+
+Bloquear entrada inválida
+
+Exibir mensagem clara
+
+🔄 Cenário — Diferença visível
+
+Dado que Ana altera a quantidade
+
+Quando digita um novo valor
+
+Então o sistema deve:
+
+Atualizar automaticamente a diferença
+
+Mostrar impacto antes da confirmação
+
+❌ Cenário — Cancelamento
+
+Dado que Ana iniciou o ajuste
+
+Quando clica em cancelar
+
+Então nenhuma alteração deve ser salva
+
+--
+1. História de Usuário ANA (Narrativa)
+
+Como Ana — gerente de loja de pequeno/médio porte
+
+Eu quero registrar perdas ou quebras de produtos de forma rápida e controlada
+
+Para garantir que itens danificados ou perdidos não permaneçam incorretamente no estoque
+
+2. Detalhes da Tela (Informações + Protótipo Conceitual)
+📱 Nome da Tela: Registrar Perda / Quebra
+🧩 Wireframe Conceitual (Mobile First)
+┌──────────────────────────────┐
+│ ← Registrar Perda            │
+│ Informe itens danificados    │
+├──────────────────────────────┤
+
+│ 🔍 Buscar produto            │
+│ ┌──────────────────────────┐ │
+│ │ Ex: Camiseta preta       │ │
+│ └──────────────────────────┘ │
+│                              │
+
+│ 📦 Produto selecionado       │
+│ Camiseta Básica Preta        │
+│ SKU: #12345                  │
+│ Estoque atual: 12 un         │
+│                              │
+├──────────────────────────────┤
+
+│ Quantidade perdida           │
+│ ┌──────────────────────────┐ │
+│ │ [   2                ]   │ │
+│ └──────────────────────────┘ │
+│                              │
+│ ⚠ Máx permitido: 12 un       │
+│                              │
+├──────────────────────────────┤
+
+│ Motivo da perda              │
+│ ┌──────────────────────────┐ │
+│ │ Produto danificado   ▼   │ │
+│ └──────────────────────────┘ │
+│                              │
+│ Opções:                      │
+│ • Danificado                 │
+│ • Vencido                    │
+│ • Extraviado                 │
+│ • Outro                      │
+│                              │
+├──────────────────────────────┤
+
+│ 📝 Observação (opcional)     │
+│ ┌──────────────────────────┐ │
+│ │ Ex: caixa molhada        │ │
+│ └──────────────────────────┘ │
+│                              │
+├──────────────────────────────┤
+
+│ ⚠ Isso reduzirá o estoque    │
+│ e ficará registrado          │
+│                              │
+├──────────────────────────────┤
+
+│ [ Cancelar ]   [ Registrar ] │
+│                Perda         │
+└──────────────────────────────┘
+🎯 Estrutura e Elementos da Tela
+🔝 Header
+
+Título: Registrar Perda
+
+Subtítulo: Informe itens danificados ou perdidos
+
+Botão voltar
+
+🔍 Busca de Produto
+
+Campo de busca com autocomplete
+
+Sugestões em tempo real
+
+Seleção rápida (UX essencial para agilidade)
+
+📦 Produto Selecionado
+
+Nome
+
+SKU
+
+Estoque atual (destaque)
+
+👉 Importante: mantém contexto para evitar erro (não registrar perda no produto errado)
+
+🔢 Quantidade Perdida
+
+Input numérico
+
+Validação:
+
+Não pode ser maior que o estoque
+
+Não pode ser negativo
+
+Feedback:
+
+“Máx permitido: X unidades”
+
+📌 Motivo da Perda
+
+Dropdown (padronização de dados)
+
+Opções comuns:
+
+Danificado
+
+Vencido
+
+Extraviado
+
+Outro
+
+📝 Observação
+
+Campo livre
+
+Ajuda auditoria futura
+
+⚠ Feedback de Impacto
+
+Mensagem clara:
+
+“Isso reduzirá o estoque e ficará registrado”
+
+👉 UX avançado: reduz ansiedade e evita erro operacional
+
+🎯 Ações
+
+Primária: Registrar Perda
+
+Secundária: Cancelar
+
+Botão fixo no bottom (mobile)
+
+💡 Decisões de UX (nível sênior)
+1. Prevenção de fraude/erro
+
+Limite baseado no estoque atual
+
+Obrigatoriedade de motivo (padronização)
+
+2. Transparência operacional
+
+Aviso claro de impacto no estoque
+
+Registro implícito no histórico
+
+3. Eficiência
+
+Busca rápida ao invés de navegação longa
+
+Menos cliques = mais produtividade
+
+3. Critérios de Aceitação (BDD)
+✅ Cenário — Registro de perda com sucesso
+
+Dado que Ana acessou o menu de estoque e iniciou o registro de perda
+
+Quando ela seleciona um produto válido
+
+E informa uma quantidade válida dentro do estoque disponível
+
+E escolhe um motivo
+
+E clica em “Registrar Perda”
+
+Então o sistema deve:
+
+Reduzir a quantidade do estoque corretamente
+
+Registrar a perda no histórico
+
+Exibir mensagem: “Perda registrada com sucesso”
+
+Redirecionar para a lista de produtos ou tela anterior
+
+⚠️ Cenário — Quantidade maior que o estoque
+
+Dado que Ana selecionou um produto
+
+Quando informa uma quantidade maior que o estoque disponível
+
+Então o sistema deve:
+
+Bloquear o envio
+
+Exibir erro: “Quantidade excede o estoque disponível”
+
+⚠️ Cenário — Campo obrigatório não preenchido
+
+Dado que Ana está na tela de registro
+
+Quando tenta registrar sem preencher quantidade ou motivo
+
+Então o sistema deve:
+
+Destacar campos obrigatórios
+
+Exibir mensagem de erro
+
+Impedir envio
+
+⚠️ Cenário — Produto não selecionado
+
+Dado que Ana acessou a tela
+
+Quando tenta registrar perda sem selecionar produto
+
+Então o sistema deve:
+
+Exibir mensagem: “Selecione um produto”
+
+Impedir ação
+
+🔄 Cenário — Cancelamento
+
+Dado que Ana iniciou o registro
+
+Quando clica em cancelar
+
+Então o sistema deve:
+
+Descartar informações
+
+Retornar à tela anterior
+
+🚀 Insight estratégico (diferencial real de produto)
+
+Esse fluxo resolve um problema crítico que muitos sistemas ignoram:
+
+👉 Perdas “invisíveis” no estoque
+
+Com isso:
+
+Você melhora controle financeiro
+
+Evita distorção em relatórios
+
+Cria base para análise de prejuízo
+--
+
+1. História de Usuário ANA (Narrativa)
+
+Como Ana — gerente de loja de pequeno/médio porte
+
+Eu quero visualizar rapidamente o total de vendas do dia e acessar a lista detalhada de vendas
+
+Para acompanhar o desempenho da loja em tempo real e garantir que a operação esteja funcionando corretamente
+
+2. Detalhes da Tela (Informações + Protótipo Conceitual)
+📱 Nome da Tela: Dashboard — Vendas do Dia
+🧩 Wireframe Conceitual (Mobile First)
+┌──────────────────────────────┐
+│ ☰ Dashboard                 │
+│ Hoje • 18 Mar               │
+├──────────────────────────────┤
+
+│ 💰 Vendas do Dia            │
+│ R$ 2.450,00                 │
+│ +12% vs ontem               │
+│                              │
+├──────────────────────────────┤
+
+│ 📊 Resumo rápido            │
+│ • 32 vendas realizadas      │
+│ • Ticket médio: R$ 76,50    │
+│                              │
+├──────────────────────────────┤
+
+│ 🔎 Buscar venda             │
+│ ┌──────────────────────────┐ │
+│ │ Cliente ou código        │ │
+│ └──────────────────────────┘ │
+│                              │
+├──────────────────────────────┤
+
+│ 📋 Lista de vendas          │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │ #1023                    │ │
+│ │ Cliente: João            │ │
+│ │ R$ 120,00 • 14:32        │ │
+│ └──────────────────────────┘ │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │ #1022                    │ │
+│ │ Cliente: Maria           │ │
+│ │ R$ 80,00 • 13:50         │ │
+│ └──────────────────────────┘ │
+│                              │
+│ (scroll)                     │
+│                              │
+├──────────────────────────────┤
+
+│ ⬇ Ver mais vendas           │
+└──────────────────────────────┘
+🎯 Estrutura e Elementos da Tela
+🔝 Header
+
+Menu (☰)
+
+Título: Dashboard
+
+Data atual (ex: Hoje • 18 Mar)
+
+💰 Card Principal (KPIs — foco máximo)
+
+Total vendido no dia (destaque grande)
+
+Comparativo:
+
+Ex: “+12% vs ontem”
+
+👉 UX crítico: Ana precisa entender em 2 segundos se está tudo ok
+
+📊 Resumo Rápido
+
+Quantidade de vendas
+
+Ticket médio
+
+👉 Ajuda decisão rápida sem abrir relatórios
+
+🔎 Busca
+
+Campo para filtrar vendas:
+
+Cliente
+
+Código do pedido
+
+📋 Lista de Vendas
+
+Cada item contém:
+
+ID da venda
+
+Nome do cliente
+
+Valor
+
+Horário
+
+👉 Layout em cards (tapável → pode abrir detalhe futuramente)
+
+⬇ Ação de Continuidade
+
+“Ver mais vendas” (paginação ou scroll infinito)
+
+💡 Decisões de UX (nível sênior)
+1. Hierarquia de informação (extremamente intencional)
+
+Total vendido (macro)
+
+Indicadores rápidos (contexto)
+
+Lista (detalhe)
+
+2. Leitura em menos de 3 segundos
+
+Valor grande + contraste
+
+Comparação simples (positivo/negativo)
+
+3. Sensação de controle (emocional)
+
+Dados atualizados
+
+Lista visível (transparência)
+
+4. Escalabilidade
+
+Estrutura permite:
+
+Filtros por data
+
+Integração com relatórios
+
+Drill-down de vendas
+
+3. Critérios de Aceitação (BDD)
+✅ Cenário — Visualizar vendas do dia com sucesso
+
+Dado que Ana realizou login no sistema
+
+Quando acessa o dashboard
+
+E visualiza a seção de vendas do dia
+
+Então o sistema deve:
+
+Exibir o total vendido no dia
+
+Mostrar quantidade de vendas e ticket médio
+
+Apresentar lista de vendas registradas
+
+Garantir carregamento rápido (<2s ideal)
+
+🔄 Cenário — Atualização em tempo real
+
+Dado que novas vendas são registradas
+
+Quando Ana estiver no dashboard
+
+Então o sistema deve:
+
+Atualizar automaticamente os dados
+
+Ou permitir refresh manual
+
+🔎 Cenário — Buscar venda
+
+Dado que Ana está na lista de vendas
+
+Quando digita um nome ou código na busca
+
+Então o sistema deve:
+
+Filtrar a lista em tempo real
+
+Exibir resultados correspondentes
+
+⚠️ Cenário — Sem vendas no dia
+
+Dado que não houve vendas registradas
+
+Quando Ana acessa o dashboard
+
+Então o sistema deve:
+
+Exibir mensagem: “Nenhuma venda registrada hoje”
+
+Manter layout limpo e sem erro
+
+📉 Cenário — Queda nas vendas
+
+Dado que o valor atual é menor que o dia anterior
+
+Quando o sistema calcula o comparativo
+
+Então deve:
+
+Exibir indicador negativo (ex: “-8% vs ontem”)
+
+Usar sinal visual (cor/ícone)
+
+📄 Cenário — Visualizar mais vendas
+
+Dado que há muitas vendas registradas
+
+Quando Ana clica em “Ver mais vendas”
+
+Então o sistema deve:
+
+Carregar mais itens
+
+Manter performance
+
+🚀 Insight estratégico (nível produto)
+
+Esse touchpoint resolve algo crítico:
+
+👉 Decisão rápida sem abrir relatórios complexos
+
+Com isso:
+
+Ana identifica problemas em segundos
+
+Reduz dependência de análise manual
+
+Ganha confiança na operação
+
+
+## JOÃO: 
+# 🔐 1. Touchpoint: Tela de Login → Acesso ao PDV
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** João — operador de caixa
+* **Eu quero** acessar rapidamente o sistema e entrar direto no PDV
+* **Para** iniciar meu atendimento sem atrasar a fila
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura (Mobile / PDV simplificado)
+
+**Título:**
+
+* “Iniciar turno”
+
+**Subtítulo:**
+
+* “Acesse para começar suas vendas”
+
+---
+
+### 🔐 Campos
+
+* **E-mail**
+
+  * Placeholder: “Seu usuário”
+* **Senha**
+
+  * Placeholder: “Sua senha”
+  * Opção mostrar/ocultar
+
+---
+
+### 🎯 Ações
+
+* Botão primário:
+
+  * “Entrar no caixa”
+
+---
+
+### ⚡ Otimizações críticas
+
+* Login persistente por turno
+* Foco automático no campo senha
+* Teclado otimizado
+* Tempo de resposta mínimo
+
+---
+
+### 🧠 Elemento emocional
+
+* “Entre rápido e comece a atender sem atrasos”
+
+---
+
+### 🧩 Wireframe
+
+```id="pdvlogin01"
+Iniciar turno
+
+[ Usuário ]
+[ Senha 👁️ ]
+
+[ Entrar no caixa ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** João está no início do turno
+* **Quando** ele insere credenciais válidas
+* **E** toca em “Entrar no caixa”
+* **Então** o sistema autentica rapidamente
+* **E** abre diretamente a tela de PDV
+
+---
+
+* **Dado que** há erro de login
+* **Quando** ele tenta acessar
+* **E** envia os dados
+* **Então** o sistema exibe erro claro
+* **E** não atrasa nova tentativa
+
+---
+
+---
+
+# 🛒 2. Touchpoint: Tela de PDV → Pesquisa de produto
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** João
+* **Eu quero** encontrar rapidamente produtos pelo nome ou código
+* **Para** adicionar itens ao carrinho sem atrasar o atendimento
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura
+
+**Topo:**
+
+* Campo de busca sempre ativo
+
+---
+
+### 🔍 Campo de busca
+
+* Placeholder:
+
+  * “Buscar produto ou bipar código”
+* Suporte a:
+
+  * Código de barras
+  * Busca por nome
+
+---
+
+### 📋 Resultados
+
+* Nome do produto
+* Preço
+* Estoque (opcional)
+
+---
+
+### 🧠 Elemento emocional
+
+* “Encontre produtos em segundos”
+
+---
+
+### 🧩 Wireframe
+
+```id="pdv01"
+[ Buscar produto... ]
+
+Arroz 5kg — R$ 25
+Leite — R$ 6
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** João está no PDV
+* **Quando** digita ou bipar um produto
+* **E** realiza a busca
+* **Então** o sistema retorna resultados rapidamente
+
+---
+
+---
+
+# ➕ 3. Touchpoint: Adicionar ao carrinho
+
+## 1. História de Usuário
+
+* **Como** João
+* **Eu quero** adicionar produtos ao carrinho com um toque
+* **Para** registrar a venda com rapidez
+
+---
+
+## 2. Detalhes
+
+* Clique adiciona automaticamente
+* Feedback visual imediato (item aparece no carrinho)
+
+---
+
+### 🧩 Wireframe
+
+```id="pdv02"
+Arroz — R$25   [+]
+```
+
+---
+
+## 3. Critérios (BDD)
+
+* **Dado que** João seleciona um produto
+* **Quando** toca para adicionar
+* **E** confirma a ação
+* **Então** o item é incluído no carrinho
+* **E** o total é atualizado
+
+---
+
+---
+
+# ✏️ 4. Touchpoint: Editar quantidade
+
+## 1. História de Usuário
+
+* **Como** João
+* **Eu quero** ajustar rapidamente a quantidade de um item
+* **Para** corrigir pedidos sem precisar refazer a venda
+
+---
+
+## 2. Detalhes
+
+* Botões:
+
+  * ➖ / ➕
+* Edição manual opcional
+
+---
+
+### 🧩 Wireframe
+
+```id="pdv03"
+Arroz
+[-] 2 [+]
+```
+
+---
+
+## 3. Critérios
+
+* **Dado que** um item está no carrinho
+* **Quando** João altera a quantidade
+* **E** confirma
+* **Então** o sistema atualiza o total automaticamente
+
+---
+
+---
+
+# ❌ 5. Touchpoint: Remover item
+
+## 1. História de Usuário
+
+* **Como** João
+* **Eu quero** remover itens facilmente do carrinho
+* **Para** corrigir erros rapidamente
+
+---
+
+## 2. Detalhes
+
+* Ícone de lixeira 🗑️
+* Confirmação leve (ou desfazer)
+
+---
+
+### 🧩 Wireframe
+
+```id="pdv04"
+Arroz   🗑️
+```
+
+---
+
+## 3. Critérios
+
+* **Dado que** há um item no carrinho
+* **Quando** João remove o item
+* **E** confirma
+* **Então** o sistema exclui o produto
+* **E** atualiza o total
+
+---
+
+---
+
+# 💰 6. Touchpoint: Atualização do total
+
+## 1. História de Usuário
+
+* **Como** João
+* **Eu quero** ver o valor total atualizado em tempo real
+* **Para** informar corretamente o cliente
+
+---
+
+## 2. Detalhes
+
+* Total fixo na tela
+* Destaque visual
+
+---
+
+### 🧩 Wireframe
+
+```id="pdv05"
+Total: R$ 56,00
+```
+
+---
+
+## 3. Critérios
+
+* **Dado que** itens são adicionados ou alterados
+* **Quando** o carrinho muda
+* **E** a ação é concluída
+* **Então** o total é recalculado instantaneamente
+
+---
+
+---
+
+# 💳 7. Touchpoint: Finalizar venda → Forma de pagamento
+
+## 1. História de Usuário
+
+* **Como** João
+* **Eu quero** selecionar rapidamente a forma de pagamento correta
+* **Para** evitar erros no fechamento do caixa
+
+---
+
+## 2. Detalhes
+
+### 🎯 Botão principal
+
+* “Finalizar venda”
+
+---
+
+### 💳 Opções
+
+* PIX
+* Dinheiro
+* Cartão
+
+---
+
+### 🧠 Elemento emocional
+
+* “Confirme com segurança antes de concluir”
+
+---
+
+### 🧩 Wireframe
+
+```id="pdv06"
+Total: R$ 56
+
+[ PIX ]
+[ Dinheiro ]
+[ Cartão ]
+```
+
+---
+
+## 3. Critérios
+
+* **Dado que** João finalizou o carrinho
+* **Quando** seleciona a forma de pagamento
+* **E** confirma
+* **Então** o sistema registra a venda corretamente
+
+---
+
+---
+
+# ✅ 8. Touchpoint: Confirmação de venda
+
+## 1. História de Usuário
+
+* **Como** João
+* **Eu quero** receber confirmação clara da venda
+* **Para** ter certeza de que tudo foi registrado corretamente
+
+---
+
+## 2. Detalhes
+
+* Mensagem:
+
+  * “Venda registrada com sucesso”
+* Opções:
+
+  * Nova venda
+  * Imprimir (opcional)
+
+---
+
+### 🧠 Elemento emocional
+
+* “Venda concluída sem erro”
+
+---
+
+### 🧩 Wireframe
+
+```id="pdv07"
+✅ Venda concluída
+
+[ Nova venda ]
+```
+
+---
+
+## 3. Critérios
+
+* **Dado que** a venda foi confirmada
+* **Quando** o sistema processa
+* **E** finaliza
+* **Então** exibe mensagem de sucesso
+* **E** limpa o carrinho
+* **E** prepara para próxima venda
+
+---
+
+---
+
+## 🔥 Observação de nível sênior (UX)
+
+Esse fluxo foi otimizado para:
+
+* **Velocidade extrema (contexto de fila)**
+* **Baixa carga cognitiva**
+* **Prevenção de erro**
+* **Feedback imediato**
+
+
+
+
+
 
 
 
@@ -1509,3 +2611,371 @@ XYZ - 18 Mar 🔴
 * **E** confirma
 * **Então** o sistema atualiza o status
 
+
+## ANA :
+
+
+
+
+# JOÃO : 
+# 🔐 1. Touchpoint: Tela de Login
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** João — operador de caixa
+* **Eu quero** acessar rapidamente o sistema no início do turno
+* **Para** começar o atendimento com o PDV pronto para operar
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura
+
+**Título:**
+
+* “Iniciar turno”
+
+**Subtítulo:**
+
+* “Acesse para começar o atendimento”
+
+---
+
+### 🔐 Campos
+
+* Usuário / E-mail
+* Senha (com 👁️ mostrar/ocultar)
+
+---
+
+### 🎯 Ações
+
+* Botão:
+
+  * “Entrar no PDV”
+
+---
+
+### ⚡ Otimizações
+
+* Login rápido
+* Sessão persistente
+* Feedback imediato
+
+---
+
+### 🧠 Elemento emocional
+
+* “Comece seu turno sem atrasos”
+
+---
+
+### 🧩 Wireframe
+
+```id="f2login"
+Iniciar turno
+
+[ Usuário ]
+[ Senha 👁️ ]
+
+[ Entrar no PDV ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** João inicia o turno
+* **Quando** insere credenciais válidas
+* **E** toca em “Entrar no PDV”
+* **Então** o sistema autentica rapidamente
+* **E** direciona para a tela do PDV pronta para uso
+
+---
+
+---
+
+# 🖥️ 2. Touchpoint: Tela PDV
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** João
+* **Eu quero** acessar o PDV já pronto e funcional
+* **Para** iniciar o atendimento imediatamente
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Estrutura
+
+* Campo de busca em destaque (foco automático)
+* Área do carrinho (vazio inicialmente)
+* Total zerado
+
+---
+
+### 🎯 Estado inicial
+
+* Mensagem:
+
+  * “Pronto para iniciar venda”
+
+---
+
+### 🧠 Elemento emocional
+
+* “Sistema pronto = atendimento rápido”
+
+---
+
+### 🧩 Wireframe
+
+```id="f2pdv"
+[ Buscar produto... ]
+
+Carrinho vazio
+
+Total: R$ 0,00
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** João fez login
+* **Quando** o PDV é carregado
+* **E** a tela aparece
+* **Então** o sistema exibe o PDV pronto
+* **E** posiciona o cursor no campo de busca
+
+---
+
+---
+
+# 🔍 3. Touchpoint: Campo de Busca do PDV
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** João
+* **Eu quero** pesquisar produtos rapidamente pelo nome ou código
+* **Para** localizar itens sem atrasar o cliente
+
+---
+
+## 2. Detalhes da Tela
+
+### 📱 Campo de busca
+
+* Placeholder:
+
+  * “Buscar ou bipar produto”
+* Suporte:
+
+  * Código de barras
+  * Digitação parcial
+
+---
+
+### ⚡ Comportamento
+
+* Busca em tempo real (instantânea)
+
+---
+
+### 🧠 Elemento emocional
+
+* “Resposta rápida evita fila”
+
+---
+
+### 🧩 Wireframe
+
+```id="f2search"
+[ Buscar ou bipar produto... ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** João está no PDV
+* **Quando** digita ou bipar um produto
+* **E** realiza a busca
+* **Então** o sistema retorna resultados imediatamente
+
+---
+
+---
+
+# 📦 4. Touchpoint: Resultado de Produto no PDV
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** João
+* **Eu quero** visualizar informações do produto incluindo estoque disponível
+* **Para** decidir se posso vender o item
+
+---
+
+## 2. Detalhes da Tela
+
+### 📋 Item exibido
+
+* Nome do produto
+* Preço
+* Quantidade em estoque
+
+---
+
+### 🎯 Estados
+
+* Estoque disponível:
+
+  * “Em estoque: 10”
+* Sem estoque:
+
+  * “Sem estoque” (destacado)
+
+---
+
+### 🧠 Elemento emocional
+
+* “Evitar erro antes de acontecer”
+
+---
+
+### 🧩 Wireframe
+
+```id="f2result"
+Arroz 5kg
+R$ 25
+
+Estoque: 10
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** o produto foi localizado
+* **Quando** João visualiza o item
+* **E** analisa os dados
+* **Então** o sistema exibe quantidade disponível
+* **E** permite decisão antes de adicionar
+
+---
+
+---
+
+# ⚠️ 5. Touchpoint: Indicador de Estoque Baixo
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** João
+* **Eu quero** ver um alerta visual quando o estoque está baixo
+* **Para** evitar vender um produto que pode acabar ou gerar problema
+
+---
+
+## 2. Detalhes da Tela
+
+### 🚨 Indicador visual
+
+* Cor:
+
+  * 🟡 Baixo
+  * 🔴 Crítico
+
+---
+
+### 📍 Exibição
+
+* Ao lado do estoque:
+
+  * “Estoque: 3 ⚠️”
+
+---
+
+### 💡 Reforço
+
+* Tooltip ou texto:
+
+  * “Produto com poucas unidades”
+
+---
+
+### 🧠 Elemento emocional
+
+* “Sistema me protege de erro”
+
+---
+
+### 🧩 Wireframe
+
+```id="f2alert"
+Arroz 5kg
+Estoque: 3 ⚠️
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** o produto possui estoque baixo
+* **Quando** João visualiza o resultado
+* **E** observa o item
+* **Então** o sistema exibe indicador visual de alerta
+
+---
+
+* **Dado que** o estoque é crítico
+* **Quando** o item aparece
+* **E** o nível é baixo
+* **Então** o sistema destaca com cor e símbolo
+
+---
+
+---
+
+# 🚫 (Complementar UX) — Prevenção de venda sem estoque
+
+*(Mesmo não sendo um touchpoint explícito, isso é crítico no fluxo)*
+
+## Comportamento esperado
+
+* Se estoque = 0:
+
+  * Bloquear adição ao carrinho
+  * Mensagem:
+
+    * “Produto indisponível”
+
+---
+
+## Critério adicional (BDD)
+
+* **Dado que** o produto está sem estoque
+* **Quando** João tenta adicionar ao carrinho
+* **E** executa a ação
+* **Então** o sistema bloqueia a adição
+* **E** informa claramente que o produto está indisponível
+
+---
+
+---
+
+## 🔥 Observação de nível sênior (UX)
+
+Essa fase resolve um problema crítico de PDV:
+
+* Evita **venda indevida (ruptura de estoque)**
+* Reduz **retrabalho e constrangimento com cliente**
+* Mantém **fluxo rápido sem fricção**
+
+Os pilares aqui foram:
+
+* **Feedback em tempo real**
+* **Prevenção > correção**
+* **Leitura instantânea (cores + números)**
