@@ -750,8 +750,484 @@ Cadastrou produto
 * **Então** ele entende que todas as atividades são rastreadas
 * **E** sente maior confiança na integridade do sistema
 
+## MARCOS
 
 
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** confirmar a venda rapidamente após revisar os itens e pagamento
+• **Para** finalizar o atendimento sem gerar fila no caixa
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+### 📱 Wireframe (Mobile)
+
+```
+┌──────────────────────────────┐
+│ ← Confirmar Venda                                             │
+│ Revise antes de finalizar                                     │
+├──────────────────────────────┤
+│ [RESUMO DA VENDA]                                       │
+│ Produto A        x2   R$20                                     │
+│ Produto B        x1   R$15                                    │
+│                                                                             │
+│ TOTAL:           R$55                                            │
+├──────────────────────────────┤
+│ [FORMA DE PAGAMENTO]                                │
+│ Tipo: Dinheiro                                                      │
+│                                                                             │
+│ Valor recebido: [ 60,00 ]                                      │
+│ Troco:            R$5                                               │
+├──────────────────────────────┤
+│ Editar carrinho                                                     │   
+│ Alterar pagamento                                               │
+├──────────────────────────────┤
+│ [ CONFIRMAR VENDA ]                                     │
+└──────────────────────────────┘
+```
+
+---
+
+### 🔹 Estrutura Funcional
+
+#### Cabeçalho
+
+* Botão voltar (←)
+* Título: **Confirmar Venda**
+* Subtítulo: “Revise antes de finalizar”
+
+---
+
+#### Resumo da Venda
+
+* Lista de produtos:
+
+  * Nome (com truncamento)
+  * Quantidade (xN)
+  * Preço total por item
+* Destaque visual:
+
+  * **TOTAL grande e fixo**
+
+---
+
+#### Forma de Pagamento
+
+* Label: Tipo selecionado
+* Variação por tipo:
+
+  * **Dinheiro:**
+
+    * Input: Valor recebido
+    * Campo calculado: Troco (dinâmico)
+  * **Cartão:**
+
+    * Indicador: Crédito/Débito
+  * **Pix:**
+
+    * Status: aguardando/confirmação
+
+---
+
+#### Ações Secundárias
+
+* Link: Editar carrinho
+* Link: Alterar pagamento
+  (baixo destaque — não competir com CTA)
+
+---
+
+#### CTA Principal (fixo no rodapé)
+
+* Botão: **CONFIRMAR VENDA**
+* Estados:
+
+  * Ativo: dados válidos
+  * Inativo: dados incompletos
+
+---
+
+### 🔹 Estado Pós-Confirmação (Wireframe)
+
+```
+┌──────────────────────────────┐
+│ ✔ Venda concluída                                             │
+│                                                                             │
+│ Total: R$55                                                          │
+│ Troco: R$5                                                           │
+│                                                                             │
+│ [ Nova venda ]                                                     │
+│ [ Emitir comprovante ]                                         │
+└──────────────────────────────┘
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+### Cenário 1 — Confirmação simples
+
+• **Dado que** Marcos adicionou produtos e escolheu pagamento
+• **Quando** revisa o resumo
+• **E** clica em “Confirmar Venda”
+• **Então** a venda é registrada com sucesso
+• **E** é exibida a tela de confirmação
+
+---
+
+### Cenário 2 — Dinheiro com troco
+
+• **Dado que** o pagamento é em dinheiro
+• **Quando** Marcos insere valor maior que o total
+• **E** confirma a venda
+• **Então** o sistema calcula o troco automaticamente
+• **E** exibe o valor correto após a confirmação
+
+---
+
+### Cenário 3 — Bloqueio por dados inválidos
+
+• **Dado que** há campos obrigatórios não preenchidos
+• **Quando** tenta confirmar
+• **E** os dados estão incompletos
+• **Então** o botão permanece desabilitado
+• **E** a venda não é finalizada
+
+---
+
+### Cenário 4 — Ajuste antes da confirmação
+
+• **Dado que** Marcos está na tela de confirmação
+• **Quando** acessa “Editar carrinho” ou “Alterar pagamento”
+• **E** faz alterações
+• **Então** o resumo é atualizado em tempo real
+
+---
+
+### Cenário 5 — Tempo de resposta
+
+• **Dado que** há fila no caixa
+• **Quando** Marcos confirma a venda
+• **E** inicia uma nova
+• **Então** o sistema responde em até 2 segundos
+• **E** mantém fluidez contínua
+
+
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** buscar produtos rapidamente digitando nome ou código no campo de busca
+• **Para** encontrar e adicionar itens ao carrinho sem atrasar o atendimento no PDV
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+### 📱 Wireframe (Mobile)
+
+```
+┌──────────────────────────────┐
+│ PDV                                                                    │
+├──────────────────────────────┤
+│ 🔍 [ Buscar produto...     ]                                   │
+│     (nome ou código)                                            │
+├──────────────────────────────┤
+│ RESULTADOS                                                    │
+│                                                                             │
+│ Produto A         R$10                                           │
+│ Código: 12345                                                     │
+│ [ + Adicionar ]                                                      │
+│──────────────────────────────│
+│ Produto B         R$25                                          │
+│ Código: 67890                                                    │
+│ [ + Adicionar ]                                                      │
+│──────────────────────────────│
+│ Produto C         R$8                                            │
+│ Código: 54321                                                     │
+│ [ + Adicionar ]                                                      │
+├──────────────────────────────┤
+│ 🛒 Carrinho (2 itens)                                          │
+└──────────────────────────────┘
+```
+
+---
+
+### 🔹 Estrutura Funcional
+
+#### Campo de Busca (foco principal da tela)
+
+* Input fixo no topo
+* Placeholder: **“Buscar produto por nome ou código”**
+* Auto focus ao abrir
+* Suporte a:
+
+  * Digitação parcial (ex: “camis” → camiseta)
+  * Código exato (SKU/código de barras)
+
+---
+
+#### Lista de Resultados (dinâmica em tempo real)
+
+* Atualização instantânea ao digitar
+* Cada item contém:
+
+  * Nome do produto (prioridade visual)
+  * Preço
+  * Código (secundário)
+  * Botão: **“+ Adicionar”**
+
+---
+
+#### Feedback de Estado
+
+* **Sem resultado:**
+
+  * Mensagem: “Nenhum produto encontrado”
+* **Carregando:**
+
+  * Skeleton loader simples
+* **Erro:**
+
+  * Mensagem clara + retry
+
+---
+
+#### Carrinho (resumo fixo inferior)
+
+* Indicador:
+
+  * “Carrinho (X itens)”
+* Atualização em tempo real ao adicionar produto
+
+---
+
+#### Comportamento de Interação
+
+* Toque em “+ Adicionar”:
+
+  * Produto entra direto no carrinho
+  * Feedback imediato (ex: highlight ou micro animação)
+* Busca não deve exigir confirmação (sem botão “buscar”)
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+### Cenário 1 — Busca por nome (parcial)
+
+• **Dado que** Marcos está na tela de PDV
+• **Quando** digita parte do nome de um produto no campo de busca
+• **E** continua digitando (ex: “camis”)
+• **Então** o sistema exibe resultados relevantes em tempo real
+• **E** permite selecionar um produto da lista
+
+---
+
+### Cenário 2 — Busca por código exato
+
+• **Dado que** Marcos possui o código do produto
+• **Quando** digita o código completo no campo de busca
+• **E** o código corresponde a um produto
+• **Então** o sistema retorna exatamente o produto correspondente
+• **E** permite adicioná-lo diretamente ao carrinho
+
+---
+
+### Cenário 3 — Adicionar produto ao carrinho
+
+• **Dado que** há resultados exibidos
+• **Quando** Marcos clica em “+ Adicionar” em um item
+• **E** confirma a ação
+• **Então** o produto é adicionado ao carrinho
+• **E** o contador de itens é atualizado imediatamente
+
+---
+
+### Cenário 4 — Nenhum resultado encontrado
+
+• **Dado que** Marcos digitou um termo inválido ou inexistente
+• **Quando** o sistema não encontra correspondência
+• **E** a busca é concluída
+• **Então** exibe a mensagem “Nenhum produto encontrado”
+• **E** mantém o campo de busca ativo para nova tentativa
+
+---
+
+### Cenário 5 — Performance da busca
+
+• **Dado que** Marcos está atendendo um cliente
+• **Quando** digita no campo de busca
+• **E** os resultados são carregados
+• **Então** o tempo de resposta deve ser inferior a 1 segundo
+• **E** a interação deve ocorrer sem travamentos
+
+
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** que o sistema atualize automaticamente o estoque ao confirmar uma venda
+• **Para** garantir controle preciso de produtos sem precisar ajustar manualmente após cada venda
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+> Observação: este touchpoint é majoritariamente **sistêmico (backend)**. A interface deve apenas **comunicar status e confiança**, sem exigir ação do usuário.
+
+---
+
+### 📱 Wireframe (Mobile — Pós-venda com feedback de estoque)
+
+```id="estoque01"
+┌──────────────────────────────┐
+│ ✔ Venda concluída                                              │
+├──────────────────────────────┤
+│ Total: R$ 55,00                                                    │
+│ Forma: PIX                                                          │
+├──────────────────────────────┤
+│ [ATUALIZAÇÃO DE ESTOQUE]                         │
+│                                                                             │
+│ Produto A   -2 unidades                                       │
+│ Produto B   -1 unidade                                         │
+│                                                                              │
+│ Estoque atualizado ✔                                          │
+├──────────────────────────────┤
+│ [ Nova venda ]                                                     │
+│ [ Ver detalhes ]                                                    │
+└──────────────────────────────┘
+```
+
+---
+
+### 🔹 Estrutura Funcional
+
+#### Feedback de Confirmação
+
+* Mensagem principal:
+
+  * **“Venda concluída”**
+* Indicação clara de sucesso
+
+---
+
+#### Seção: Atualização de Estoque
+
+* Título: **“Estoque atualizado automaticamente”**
+* Lista de movimentações:
+
+  * Nome do produto
+  * Quantidade reduzida (ex: -2)
+* Ícone de confirmação (✔)
+
+---
+
+#### Estados do Sistema
+
+**1. Sucesso (padrão)**
+
+* Mensagem: “Estoque atualizado”
+* Sem necessidade de intervenção
+
+**2. Processando (transitório)**
+
+* Loader curto (máx. 1s)
+* Texto: “Atualizando estoque…”
+
+**3. Falha (exceção)**
+
+```id="estoque02"
+┌──────────────────────────────┐
+│ ⚠ Erro ao atualizar estoque  │
+├──────────────────────────────┤
+│ A venda foi registrada,      │
+│ mas o estoque não foi        │
+│ atualizado automaticamente.  │
+│                              │
+│ [ Tentar novamente ]         │
+│ [ Ajustar manualmente ]      │
+└──────────────────────────────┘
+```
+
+---
+
+#### Ações Disponíveis
+
+* **Nova venda** (principal)
+* **Ver detalhes** (secundária — auditoria)
+* **Retry (em caso de erro)**
+
+---
+
+### 🔹 Requisitos Invisíveis (Críticos)
+
+* Processamento automático sem ação do usuário
+* Atualização síncrona ou quase imediata (<1s)
+* Registro persistente da movimentação (log/auditoria)
+* Consistência entre venda e estoque (não pode divergir)
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+### Cenário 1 — Atualização automática bem-sucedida
+
+• **Dado que** Marcos confirmou uma venda com produtos no carrinho
+• **Quando** o sistema processa a venda
+• **E** executa a baixa no estoque automaticamente
+• **Então** as quantidades dos produtos são reduzidas corretamente
+• **E** o sistema exibe confirmação de “Estoque atualizado”
+
+---
+
+### Cenário 2 — Registro da movimentação
+
+• **Dado que** uma venda foi concluída
+• **Quando** o sistema atualiza o estoque
+• **E** registra a movimentação
+• **Então** cada item vendido gera um registro com:
+
+* Produto
+* Quantidade
+* Data/hora
+* Tipo: saída
+  • **E** os dados ficam disponíveis para consulta futura
+
+---
+
+### Cenário 3 — Falha na atualização
+
+• **Dado que** houve erro na comunicação ou processamento
+• **Quando** o sistema não consegue atualizar o estoque
+• **E** a venda já foi confirmada
+• **Então** o sistema exibe erro claro ao usuário
+• **E** oferece opção de tentar novamente ou ajustar manualmente
+• **E** registra o erro para rastreabilidade
+
+---
+
+### Cenário 4 — Consistência de dados
+
+• **Dado que** Marcos realiza múltiplas vendas seguidas
+• **Quando** o sistema processa cada venda
+• **E** atualiza o estoque
+• **Então** não ocorre inconsistência entre vendas e saldo de estoque
+• **E** o estoque reflete corretamente todas as saídas
+
+---
+
+### Cenário 5 — Performance do processo
+
+• **Dado que** o fluxo de venda está em uso contínuo
+• **Quando** uma venda é confirmada
+• **E** o sistema atualiza o estoque
+• **Então** o tempo total do processo deve ser inferior a 1 segundo
+• **E** não deve impactar a fluidez do PDV
 
 
 ## ANA
@@ -2852,12 +3328,1722 @@ XYZ - 18 Mar 🔴
 * **Então** o sistema atualiza o status
 
 
-## ANA :
+## MARCOS FASE 2:
+
+# 🔹 Touchpoint — Tela de Login
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** acessar rapidamente o sistema com login simples e seguro
+• **Para** verificar as entregas do dia e iniciar o recebimento de mercadorias sem atrasos
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+```
+┌──────────────────────────────┐
+│        LOGO / NOME PDV       │
+│ Acesse sua conta             │
+├──────────────────────────────┤
+│ Usuário / Email              │
+│ [________________________]   │
+│ Senha                  👁     │
+│ [________________________]   │
+│                              │
+│ [ ENTRAR ]                   │
+├──────────────────────────────┤
+│ Esqueci minha senha          │
+│ ( ) Manter conectado         │
+└──────────────────────────────┘
+```
+
+### Estrutura
+
+* Inputs: usuário/email, senha
+* CTA primário: Entrar
+* Ações secundárias: recuperar senha, manter conectado
+* Autofocus + login rápido
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+• **Dado que** Marcos possui credenciais válidas
+• **Quando** preenche usuário e senha corretamente
+• **E** clica em “Entrar”
+• **Então** o sistema autentica o acesso
+• **E** redireciona para a tela de agenda de entregas
+
+---
+
+# 🔹 Touchpoint — Tela Agenda de Entregas
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** visualizar rapidamente as entregas agendadas do dia
+• **Para** identificar quais fornecedores chegaram e iniciar o recebimento
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+```
+┌──────────────────────────────┐
+│ Agenda de Entregas           │
+├──────────────────────────────┤
+│ Hoje                         │
+│                              │
+│ Fornecedor A                 │
+│ 10:00 - 5 itens              │
+│ [ Ver entrega ]              │
+│──────────────────────────────│
+│ Fornecedor B                 │
+│ 14:00 - 12 itens             │
+│ [ Ver entrega ]              │
+└──────────────────────────────┘
+```
+
+### Estrutura
+
+* Lista de entregas do dia
+* Informações: fornecedor, horário, volume
+* CTA: Ver entrega
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+• **Dado que** existem entregas agendadas
+• **Quando** Marcos acessa a tela
+• **E** visualiza a lista
+• **Então** consegue identificar rapidamente as entregas do dia
+• **E** pode acessar o detalhe de uma entrega
+
+---
+
+# 🔹 Touchpoint — Tela Detalhe da Entrega
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** visualizar os produtos e quantidades esperadas da entrega
+• **Para** conferir os itens recebidos com precisão
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+```
+┌──────────────────────────────┐
+│ Fornecedor A                 │
+│ Entrega - 5 itens            │
+├──────────────────────────────┤
+│ Produto A                    │
+│ Pedido: 10                   │
+│ Recebido: [ 0 ]              │
+│──────────────────────────────│
+│ Produto B                    │
+│ Pedido: 5                    │
+│ Recebido: [ 0 ]              │
+├──────────────────────────────┤
+│ [ Confirmar entrega ]        │
+└──────────────────────────────┘
+```
+
+### Estrutura
+
+* Lista de produtos
+* Quantidade pedida vs recebida
+* Inputs diretos
+* CTA: Confirmar entrega
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+• **Dado que** Marcos abriu uma entrega
+• **Quando** visualiza os produtos listados
+• **E** inicia a conferência
+• **Então** consegue registrar as quantidades recebidas
+• **E** preparar a confirmação da entrega
+
+---
+
+# 🔹 Touchpoint — Campo de Quantidade Recebida
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** inserir a quantidade recebida de cada produto
+• **Para** registrar exatamente o que entrou no estoque
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+```
+Produto A
+Pedido: 10
+Recebido: [ 8 ]
+```
+
+### Estrutura
+
+* Campo numérico
+* Validação instantânea
+* Feedback visual
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+• **Dado que** um produto está listado na entrega
+• **Quando** Marcos digita a quantidade recebida
+• **E** confirma o valor
+• **Então** o sistema registra a quantidade corretamente
+• **E** atualiza o estado do item
+
+---
+
+# 🔹 Touchpoint — Campo de Ajuste de Quantidade
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** ajustar a quantidade recebida quando houver divergência
+• **Para** garantir que o estoque reflita a realidade da entrega
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+```
+Produto A
+Pedido: 10
+Recebido: [ 8 ]
+⚠ Divergência detectada
+
+Motivo (opcional)
+[____________________]
+```
+
+### Estrutura
+
+* Input editável
+* Indicador de divergência
+* Campo opcional de justificativa
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+• **Dado que** existe diferença entre pedido e recebido
+• **Quando** Marcos ajusta a quantidade
+• **E** confirma o valor
+• **Então** o sistema registra a divergência
+• **E** mantém o histórico da alteração
+
+---
+
+# 🔹 Touchpoint — Botão Confirmar Entrega
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** confirmar o recebimento da entrega
+• **Para** atualizar automaticamente o estoque e finalizar o processo
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+```
+┌──────────────────────────────┐
+│ Resumo da entrega            │
+├──────────────────────────────┤
+│ Produtos conferidos ✔        │
+│ Divergências (1)             │
+├──────────────────────────────┤
+│ [ CONFIRMAR ENTREGA ]        │
+└──────────────────────────────┘
+```
+
+### Estrutura
+
+* Resumo de conferência
+* Indicadores de status
+* CTA principal
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+• **Dado que** todos os produtos foram conferidos
+• **Quando** Marcos clica em “Confirmar entrega”
+• **E** o sistema processa a ação
+• **Então** a entrega é registrada como concluída
+• **E** o estoque é atualizado automaticamente
+
+---
+
+# 🔹 Touchpoint — Tela Lista de Produtos (Estoque Atualizado)
+
+## 1. História de Usuário (Narrativa)
+
+• **Como** Marcos — Dono Operacional (Dono que também atua como Caixa)
+• **Eu quero** visualizar os produtos com estoque atualizado após o recebimento
+• **Para** garantir que o sistema reflete corretamente a realidade da loja
+
+---
+
+## 2. Detalhes da Tela (Wireframe + Estrutura)
+
+```
+┌──────────────────────────────┐
+│ Produtos                     │
+├──────────────────────────────┤
+│ Produto A     Estoque: 18    │
+│ Produto B     Estoque: 7     │
+│ Produto C     Estoque: 25    │
+└──────────────────────────────┘
+```
+
+### Estrutura
+
+* Lista de produtos
+* Quantidade atual em estoque
+* Atualização em tempo real
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+• **Dado que** uma entrega foi confirmada
+• **Quando** Marcos acessa a lista de produtos
+• **E** visualiza os itens
+• **Então** os valores de estoque refletem corretamente a entrada registrada
+• **E** o sistema mantém consistência com a entrega confirmada
+
+---
+
+Agora está no padrão correto: cada touchpoint independente, completo e consistente com o fluxo real.
+
+
+## ANA FASE 2 :
+1. História de Usuário ANA (Narrativa)
+
+Como Ana — gerente de loja de pequeno/médio porte
+
+Eu quero acessar o sistema de forma rápida e segura através de login
+
+Para iniciar a supervisão da loja e garantir que a operação esteja funcionando corretamente
+
+2. Detalhes da Tela (Informações + Protótipo Conceitual)
+📱 Nome da Tela: Login
+🧩 Wireframe Conceitual (Mobile First)
+┌──────────────────────────────┐
+│                              │
+│        🏪 Logo da Loja       │
+│                              │
+│ Gerencie sua operação        │
+│ com segurança                │
+│                              │
+├──────────────────────────────┤
+
+│ 📧 E-mail                    │
+│ ┌──────────────────────────┐ │
+│ │ ana@empresa.com          │ │
+│ └──────────────────────────┘ │
+│                              │
+
+│ 🔒 Senha                     │
+│ ┌──────────────────────────┐ │
+│ │ •••••••••••              │ │
+│ └──────────────────────────┘ │
+│ 👁 Mostrar senha            │
+│                              │
+
+│ Esqueci minha senha         │
+│                              │
+├──────────────────────────────┤
+
+│ [ Entrar ]                  │
+│                              │
+├──────────────────────────────┤
+
+│ 🔐 Acesso seguro            │
+│ Seus dados estão protegidos │
+│                              │
+└──────────────────────────────┘
+🎯 Estrutura e Elementos da Tela
+🏪 Branding / Contexto
+
+Logo da loja/sistema
+
+Frase de apoio:
+
+“Gerencie sua operação com segurança”
+
+👉 UX emocional: transmite confiança desde o primeiro contato
+
+📧 Campo de E-mail
+
+Tipo: email
+
+Placeholder: “Digite seu e-mail”
+
+Validação automática (formato válido)
+
+🔒 Campo de Senha
+
+Input protegido
+
+Opção:
+
+Mostrar/ocultar senha (ícone 👁)
+
+🔑 Ações auxiliares
+
+“Esqueci minha senha” (recuperação)
+
+🎯 Ação Principal
+
+Botão: Entrar
+
+Destaque visual (cor primária)
+
+Estado:
+
+Normal
+
+Loading
+
+Desabilitado (se campos vazios)
+
+🔐 Feedback de Segurança
+
+Texto:
+
+“Seus dados estão protegidos”
+
+👉 Reduz insegurança (principalmente para gestores)
+
+💡 Decisões de UX (nível sênior)
+1. Redução de fricção
+
+Apenas 2 campos obrigatórios
+
+Sem distrações
+
+2. Confiança e segurança
+
+Elementos visuais de proteção
+
+Linguagem simples e direta
+
+3. Eficiência operacional
+
+Login rápido = acesso imediato à operação
+
+Ideal para uso diário
+
+4. Prevenção de erro
+
+Validação em tempo real
+
+Feedback claro de erro
+
+3. Critérios de Aceitação (BDD)
+✅ Cenário — Login com sucesso
+
+Dado que Ana possui credenciais válidas
+
+Quando ela insere e-mail e senha corretamente
+
+E clica no botão “Entrar”
+
+Então o sistema deve:
+
+Autenticar o usuário
+
+Redirecionar para o dashboard
+
+Exibir carregamento rápido
+
+Manter sessão ativa
+
+⚠️ Cenário — Campos vazios
+
+Dado que Ana está na tela de login
+
+Quando tenta clicar em “Entrar” sem preencher os campos
+
+Então o sistema deve:
+
+Destacar campos obrigatórios
+
+Exibir mensagem: “Preencha todos os campos”
+
+Impedir envio
+
+⚠️ Cenário — E-mail inválido
+
+Dado que Ana digitou um e-mail incorreto
+
+Quando sai do campo ou tenta enviar
+
+Então o sistema deve:
+
+Exibir erro: “E-mail inválido”
+
+Destacar o campo
+
+⚠️ Cenário — Senha incorreta
+
+Dado que Ana inseriu credenciais inválidas
+
+Quando tenta acessar
+
+Então o sistema deve:
+
+Exibir mensagem: “E-mail ou senha incorretos”
+
+Não especificar qual campo está errado (segurança)
+
+🔄 Cenário — Recuperação de senha
+
+Dado que Ana esqueceu sua senha
+
+Quando clica em “Esqueci minha senha”
+
+Então o sistema deve:
+
+Redirecionar para fluxo de recuperação
+
+Solicitar e-mail
+
+⏳ Cenário — Feedback de carregamento
+
+Dado que Ana clicou em “Entrar”
+
+Quando o sistema estiver processando
+
+Então deve:
+
+Exibir loading no botão
+
+Evitar múltiplos cliques
+
+🚀 Insight estratégico (nível produto)
+
+O login não é só acesso — ele define a experiência:
+
+👉 Se for lento ou confuso → gera insegurança
+👉 Se for rápido e claro → gera confiança imediata
+
+Esse design garante:
+
+Entrada rápida no sistema
+
+Sensação de controle
+
+Redução de erro e suporte
+
+----
+1. História de Usuário (Narrativa)
+
+Como Ana — gerente de loja de pequeno/médio porte
+
+Eu quero registrar perdas ou quebras de produtos de forma estruturada e rápida
+
+Para documentar corretamente itens danificados ou vencidos e manter o estoque confiável
+
+2. Detalhes da Tela (Informações + Protótipo Conceitual)
+📱 Nome da Tela: Registrar Perda
+🧩 Wireframe Conceitual (Mobile First)
+┌──────────────────────────────┐
+│ ← Registrar Perda            │
+│ Documente itens perdidos     │
+├──────────────────────────────┤
+
+│ 🔍 Buscar produto            │
+│ ┌──────────────────────────┐ │
+│ │ Nome ou código           │ │
+│ └──────────────────────────┘ │
+│                              │
+├──────────────────────────────┤
+
+│ 📦 Produto selecionado       │
+│ Camiseta Básica Preta        │
+│ SKU: #12345                  │
+│ Estoque atual: 12 un         │
+│                              │
+├──────────────────────────────┤
+
+│ 🔢 Quantidade perdida        │
+│ ┌──────────────────────────┐ │
+│ │ [ 2                  ]   │ │
+│ └──────────────────────────┘ │
+│ ⚠ Máximo: 12 unidades       │
+│                              │
+├──────────────────────────────┤
+
+│ 📌 Motivo da perda           │
+│ ┌──────────────────────────┐ │
+│ │ Danificado           ▼   │ │
+│ └──────────────────────────┘ │
+│                              │
+│ (Opções: Danificado,         │
+│  Vencido, Extraviado, Outro) │
+│                              │
+├──────────────────────────────┤
+
+│ 📝 Observação (opcional)     │
+│ ┌──────────────────────────┐ │
+│ │ Descreva o ocorrido      │ │
+│ └──────────────────────────┘ │
+│                              │
+├──────────────────────────────┤
+
+│ ⚠ O estoque será reduzido   │
+│ e o registro ficará salvo    │
+│                              │
+├──────────────────────────────┤
+
+│ [ Cancelar ]   [ Registrar ] │
+│                Perda         │
+└──────────────────────────────┘
+🎯 Estrutura e Elementos da Tela
+🔝 Header
+
+Título: Registrar Perda
+
+Subtítulo: Documente itens perdidos ou danificados
+
+Botão de voltar
+
+🔍 Campo de Busca
+
+Input com autocomplete
+
+Permite busca por:
+
+Nome
+
+SKU
+
+👉 UX crítico: reduz tempo para encontrar produto
+
+📦 Produto Selecionado
+
+Nome
+
+SKU
+
+Estoque atual (destaque)
+
+👉 Mantém contexto visível → evita erro de produto
+
+🔢 Quantidade Perdida
+
+Input numérico
+
+Validações:
+
+Não pode ser maior que o estoque
+
+Não pode ser zero ou negativo
+
+Feedback:
+
+“Máximo: X unidades”
+
+📌 Motivo da Perda
+
+Dropdown padronizado:
+
+Danificado
+
+Vencido
+
+Extraviado
+
+Outro
+
+👉 Importante para relatórios e auditoria
+
+📝 Observação
+
+Campo opcional
+
+Permite detalhar o ocorrido
+
+⚠ Feedback de Impacto
+
+Mensagem clara:
+
+“O estoque será reduzido e o registro ficará salvo”
+
+👉 UX emocional: evita ações sem consciência
+
+🎯 Ações
+
+Botão primário: Registrar Perda
+
+Botão secundário: Cancelar
+
+Posicionamento fixo inferior (mobile)
+
+💡 Decisões de UX (nível sênior)
+1. Prevenção de erro operacional
+
+Limite baseado no estoque real
+
+Contexto sempre visível
+
+2. Rastreabilidade (nível gestão)
+
+Motivo obrigatório
+
+Observação opcional
+
+3. Eficiência
+
+Busca rápida + fluxo direto
+
+Poucos passos para ação crítica
+
+4. Clareza de impacto
+
+Sistema deixa explícito:
+
+Vai reduzir estoque
+
+Vai gerar histórico
+
+3. Critérios de Aceitação (BDD)
+✅ Cenário — Registro de perda com sucesso
+
+Dado que Ana acessou a tela de registrar perda
+
+Quando ela seleciona um produto válido
+
+E informa uma quantidade válida dentro do limite disponível
+
+E seleciona um motivo
+
+E clica em “Registrar Perda”
+
+Então o sistema deve:
+
+Reduzir o estoque corretamente
+
+Registrar a perda no histórico
+
+Exibir mensagem: “Perda registrada com sucesso”
+
+Redirecionar para a tela anterior ou lista de produtos
+
+⚠️ Cenário — Quantidade inválida
+
+Dado que Ana selecionou um produto
+
+Quando insere quantidade maior que o estoque ou valor inválido
+
+Então o sistema deve:
+
+Bloquear o envio
+
+Exibir mensagem: “Quantidade inválida”
+
+⚠️ Cenário — Produto não selecionado
+
+Dado que Ana está na tela
+
+Quando tenta registrar sem selecionar produto
+
+Então o sistema deve:
+
+Exibir mensagem: “Selecione um produto”
+
+Impedir ação
+
+⚠️ Cenário — Motivo não informado
+
+Dado que Ana preenche quantidade
+
+Quando não seleciona o motivo
+
+Então o sistema deve:
+
+Exibir erro
+
+Impedir envio
+
+🔄 Cenário — Cancelamento
+
+Dado que Ana iniciou o registro
+
+Quando clica em cancelar
+
+Então o sistema deve:
+
+Descartar dados
+
+Retornar à tela anterior
+
+⏳ Cenário — Feedback de processamento
+
+Dado que Ana clicou em “Registrar Perda”
+
+Quando o sistema estiver processando
+
+Então deve:
+
+Exibir loading no botão
+
+Evitar múltiplos envios
+
+🚀 Insight estratégico (nível produto)
+
+Esse touchpoint resolve um problema crítico de negócio:
+
+👉 Perdas não registradas = lucro invisivelmente corroído
+
+Com esse fluxo:
+
+Você transforma perdas em dados
+
+Permite análise futura (ex: produtos mais danificados)
+
+Aumenta controle e confiabilidade do estoque 
+---
+1. História de Usuário (Narrativa)
+
+Como Ana — gerente de loja de pequeno/médio porte
+
+Eu quero buscar e selecionar rapidamente o produto correto através de um campo inteligente
+
+Para garantir que estou registrando a movimentação no item certo e evitar divergências no estoque
+
+2. Detalhes da Tela (Informações + Protótipo Conceitual)
+📱 Nome do Componente: Campo de Seleção de Produto
+🧩 Wireframe Conceitual (Mobile First)
+┌──────────────────────────────┐
+│ 🔍 Selecionar Produto        │
+│ Encontre o item correto      │
+├──────────────────────────────┤
+
+│ ┌──────────────────────────┐ │
+│ │ Buscar por nome ou SKU   │ │
+│ └──────────────────────────┘ │
+│                              │
+├──────────────────────────────┤
+
+│ 📋 Resultados               │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │ Camiseta Preta Básica    │ │
+│ │ SKU: #12345              │ │
+│ │ Estoque: 12 un           │ │
+│ └──────────────────────────┘ │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │ Camiseta Branca          │ │
+│ │ SKU: #12346              │ │
+│ │ Estoque: 8 un            │ │
+│ └──────────────────────────┘ │
+│                              │
+│ (scroll)                     │
+│                              │
+├──────────────────────────────┤
+
+│ ✔ Produto selecionado        │
+│ Camiseta Preta Básica        │
+│                              │
+└──────────────────────────────┘
+🎯 Estrutura e Elementos do Componente
+🔝 Título e Contexto
+
+Título: Selecionar Produto
+
+Subtítulo: Encontre o item correto
+
+👉 Ajuda Ana a entender rapidamente o objetivo
+
+🔍 Campo de Busca Inteligente
+
+Placeholder: “Buscar por nome ou SKU”
+
+Tipo: texto com autocomplete
+
+Comportamento:
+
+Busca em tempo real (debounce)
+
+Sugestões instantâneas
+
+📋 Lista de Resultados
+
+Cada item exibe:
+
+Nome do produto
+
+SKU
+
+Estoque atual
+
+👉 UX crítico: evita selecionar produto errado
+
+✔ Estado Selecionado
+
+Produto destacado após seleção
+
+Pode aparecer fixo abaixo ou substituir a lista
+
+🔄 Estados do Componente
+1. Inicial
+
+Campo vazio
+
+Sem resultados exibidos
+
+2. Digitando
+
+Lista filtrada em tempo real
+
+3. Sem resultado
+
+Mensagem:
+
+“Nenhum produto encontrado”
+
+4. Selecionado
+
+Produto destacado
+
+Opção de trocar produto
+
+💡 Decisões de UX (nível sênior)
+1. Prevenção de erro crítico
+
+Exibe SKU + estoque → confirmação visual
+
+Evita ações no produto errado
+
+2. Velocidade operacional
+
+Busca instantânea
+
+Sem navegação em listas longas
+
+3. Redução de carga cognitiva
+
+Mostra apenas informações essenciais
+
+Interface limpa
+
+4. Feedback imediato
+
+Resultado em tempo real
+
+Seleção visível
+
+3. Critérios de Aceitação (BDD)
+✅ Cenário — Buscar e selecionar produto com sucesso
+
+Dado que Ana acessou o campo de seleção de produto
+
+Quando digita o nome ou SKU do produto
+
+E visualiza os resultados filtrados
+
+E seleciona um item da lista
+
+Então o sistema deve:
+
+Marcar o produto como selecionado
+
+Exibir suas informações (nome, SKU, estoque)
+
+Permitir continuidade do fluxo
+
+🔎 Cenário — Busca em tempo real
+
+Dado que Ana está digitando no campo
+
+Quando insere caracteres
+
+Então o sistema deve:
+
+Filtrar resultados automaticamente
+
+Atualizar a lista sem recarregar a página
+
+⚠️ Cenário — Nenhum resultado encontrado
+
+Dado que Ana digitou um termo inválido
+
+Quando não há correspondência
+
+Então o sistema deve:
+
+Exibir mensagem: “Nenhum produto encontrado”
+
+Sugerir revisar busca
+
+⚠️ Cenário — Tentativa de continuar sem seleção
+
+Dado que Ana não selecionou nenhum produto
+
+Quando tenta avançar no fluxo
+
+Então o sistema deve:
+
+Exibir erro: “Selecione um produto”
+
+Impedir continuidade
+
+🔄 Cenário — Trocar produto selecionado
+
+Dado que Ana já selecionou um produto
+
+Quando decide buscar outro
+
+Então o sistema deve:
+
+Permitir nova busca
+
+Substituir o produto selecionado
+
+🚀 Insight estratégico (nível produto)
+
+Esse componente é mais importante do que parece:
+
+👉 Erro na seleção = erro em todo o sistema
+
+Por isso ele precisa:
+
+Ser rápido
+
+Ser claro
+
+Confirmar contexto
+
+Com esse design:
+
+Você reduz erros operacionais
+
+Aumenta confiança do usuário
+
+Evita inconsistência no estoque
+
+----
+Aqui está a **História de Usuário completa para o touchpoint “Campo Quantidade”**, com abordagem de UX/UI sênior — focada em **precisão, segurança e confiança operacional**:
+
+---
+
+# 1. História de Usuário (Narrativa)
+
+* **Como** Ana — gerente de loja de pequeno/médio porte
+* **Eu quero** informar a quantidade exata de produtos perdidos de forma simples e validada
+* **Para** garantir que o estoque reflita fielmente a realidade da loja
+
+---
+
+# 2. Detalhes da Tela (Informações + Protótipo Conceitual)
+
+## 📱 **Nome do Componente: Campo Quantidade Perdida**
+
+---
+
+## 🧩 **Wireframe Conceitual (Mobile First)**
+
+```id="quantidade-ux01"
+┌──────────────────────────────┐
+│ 🔢 Quantidade Perdida        │
+│ Informe o valor correto      │
+├──────────────────────────────┤
+
+│ Estoque atual: 12 unidades   │
+│                              │
+│ ┌───────────────┐            │
+│ │   [-]   2  [+]│            │
+│ └───────────────┘            │
+│                              │
+│ ✍ Ou digite manualmente:     │
+│ ┌──────────────────────────┐ │
+│ │ 2                        │ │
+│ └──────────────────────────┘ │
+│                              │
+│ ⚠ Máximo permitido: 12       │
+│                              │
+│ 🔄 Impacto no estoque:       │
+│ Novo estoque: 10 unidades    │
+│                              │
+└──────────────────────────────┘
+```
+
+---
+
+## 🎯 **Estrutura e Elementos do Componente**
+
+### 🔝 Título e Contexto
+
+* Título: Quantidade Perdida
+* Subtítulo: Informe o valor correto
+
+👉 Direciona ação com clareza
+
+---
+
+### 📦 Informação de Referência
+
+* Estoque atual (ex: 12 unidades)
+
+👉 **UX crítico:** evita erros de cálculo mental
+
+---
+
+### 🔢 Controle de Quantidade (Dual Input)
+
+#### 1. Stepper (principal)
+
+* Botões:
+
+  * [-] diminuir
+  * [+] aumentar
+* Ideal para uso rápido no mobile
+
+#### 2. Input manual
+
+* Campo numérico editável
+* Permite agilidade para valores maiores
+
+---
+
+### ⚠ Validação em Tempo Real
+
+* Limite máximo:
+
+  * Não pode ultrapassar o estoque
+* Não permite:
+
+  * Números negativos
+  * Zero (dependendo da regra de negócio)
+
+---
+
+### 🔄 Feedback de Impacto (UX avançado)
+
+* Cálculo automático:
+
+  * “Novo estoque: X unidades”
+
+👉 **Diferencial forte:** reduz erro humano e aumenta confiança
+
+---
+
+## 💡 **Decisões de UX (nível sênior)**
+
+### 1. Prevenção de erro (prioridade máxima)
+
+* Limite baseado no estoque atual
+* Feedback imediato do impacto
+
+---
+
+### 2. Flexibilidade de uso
+
+* Stepper (rápido) + Input manual (preciso)
+
+---
+
+### 3. Redução de carga cognitiva
+
+* Sistema faz a conta → usuário só valida
+
+---
+
+### 4. Confiança emocional
+
+* Mostrar o “novo estoque” dá segurança na ação
+
+---
+
+# 3. Critérios de Aceitação (BDD)
+
+---
+
+### ✅ Cenário — Informar quantidade válida
+
+* **Dado que** Ana selecionou um produto
+* **Quando** informa uma quantidade dentro do limite disponível
+* **E** confirma o valor
+* **Então** o sistema deve:
+
+  * Aceitar o valor
+  * Atualizar o cálculo do novo estoque
+  * Permitir continuidade do fluxo
+
+---
+
+### ⚠️ Cenário — Quantidade maior que o estoque
+
+* **Dado que** o produto possui estoque atual definido
+* **Quando** Ana insere valor maior que o estoque
+* **Então** o sistema deve:
+
+  * Bloquear o valor
+  * Exibir mensagem: “Quantidade excede o estoque disponível”
+
+---
+
+### ⚠️ Cenário — Valor inválido
+
+* **Dado que** Ana está no campo de quantidade
+* **Quando** insere número negativo, zero ou texto
+* **Então** o sistema deve:
+
+  * Bloquear a entrada inválida
+  * Exibir mensagem de erro clara
+
+---
+
+### 🔄 Cenário — Uso do stepper
+
+* **Dado que** Ana utiliza os botões (+/-)
+* **Quando** incrementa ou decrementa o valor
+* **Então** o sistema deve:
+
+  * Atualizar a quantidade automaticamente
+  * Atualizar o impacto no estoque em tempo real
+
+---
+
+### 🔄 Cenário — Atualização dinâmica do impacto
+
+* **Dado que** Ana altera a quantidade
+* **Quando** modifica o valor
+* **Então** o sistema deve:
+
+  * Recalcular instantaneamente o novo estoque
+  * Exibir o valor atualizado
+
+---
+
+### ⚠️ Cenário — Campo não preenchido
+
+* **Dado que** Ana não informou quantidade
+* **Quando** tenta continuar
+* **Então** o sistema deve:
+
+  * Exibir mensagem: “Informe a quantidade”
+  * Impedir avanço
+
+---
+
+# 🚀 Insight estratégico (nível produto)
+
+Esse campo é um dos mais críticos do sistema:
+
+👉 **Aqui acontece o erro que quebra todo o estoque**
+
+Por isso, o design resolve 3 problemas:
+
+* Erro humano (cálculo mental eliminado)
+* Falta de confiança (feedback visual claro)
+* Lentidão (input rápido e intuitivo)
+
+---
+Aqui está a **História de Usuário completa para o touchpoint “Botão Confirmar (Registrar Perda)”**, com abordagem de UX/UI sênior — focada em **segurança, feedback e confiança na ação crítica**:
+
+---
+
+# 1. História de Usuário (Narrativa)
+
+* **Como** Ana — gerente de loja de pequeno/médio porte
+* **Eu quero** confirmar o registro da perda com segurança e clareza
+* **Para** garantir que a movimentação seja registrada corretamente no histórico e reflita no estoque
+
+---
+
+# 2. Detalhes da Tela (Informações + Protótipo Conceitual)
+
+## 📱 **Nome do Componente: Botão Confirmar Registro de Perda**
+
+---
+
+## 🧩 **Wireframe Conceitual (Mobile First)**
+
+```id="confirmar-ux01"
+┌──────────────────────────────┐
+│ 📦 Resumo da perda           │
+├──────────────────────────────┤
+
+│ Produto: Camiseta Preta      │
+│ Quantidade: 2 unidades       │
+│ Motivo: Danificado           │
+│                              │
+│ Estoque atual: 12            │
+│ Novo estoque: 10             │
+│                              │
+├──────────────────────────────┤
+
+│ ⚠ Essa ação reduzirá o       │
+│ estoque e será registrada    │
+│ no histórico                 │
+│                              │
+├──────────────────────────────┤
+
+│ [ Cancelar ]                 │
+│                              │
+│ [ Confirmar Registro ]       │
+│                              │
+│ (Loading ao clicar...)       │
+└──────────────────────────────┘
+```
+
+---
+
+## 🎯 **Estrutura e Elementos do Componente**
+
+### 📦 Resumo da Ação (antes de confirmar)
+
+* Produto selecionado
+* Quantidade perdida
+* Motivo
+* Estoque atual
+* Novo estoque (após ação)
+
+👉 **UX crítico:** evita erro antes da ação irreversível
+
+---
+
+### ⚠ Aviso de Impacto
+
+* Mensagem clara:
+
+  * “Essa ação reduzirá o estoque e será registrada no histórico”
+
+👉 Gera consciência e responsabilidade
+
+---
+
+### 🎯 Botão Principal
+
+* Texto: **Confirmar Registro**
+* Destaque visual (cor primária ou de alerta leve)
+* Estado:
+
+  * Ativo (quando dados válidos)
+  * Desabilitado (dados incompletos)
+
+---
+
+### ❌ Botão Secundário
+
+* Cancelar
+* Retorna sem salvar
+
+---
+
+### ⏳ Estado de Processamento
+
+* Loading no botão após clique
+* Bloqueio de múltiplos cliques
+
+---
+
+### ✅ Feedback Pós-Ação
+
+* Mensagem:
+
+  * “Perda registrada com sucesso”
+* Possível:
+
+  * Toast (notificação leve)
+  * Redirecionamento
+
+---
+
+## 💡 **Decisões de UX (nível sênior)**
+
+### 1. Confirmação consciente
+
+* Mostrar resumo antes da ação
+* Reduz erro em ações críticas
+
+---
+
+### 2. Feedback imediato
+
+* Loading → evita dúvida
+* Sucesso → reforça confiança
+
+---
+
+### 3. Prevenção de duplicidade
+
+* Bloqueio de múltiplos cliques
+
+---
+
+### 4. Transparência total
+
+* Mostra impacto no estoque
+* Mostra que será registrado
+
+---
+
+# 3. Critérios de Aceitação (BDD)
+
+---
+
+### ✅ Cenário — Confirmação com sucesso
+
+* **Dado que** Ana preencheu corretamente os dados da perda
+* **Quando** revisa o resumo da ação
+* **E** clica em “Confirmar Registro”
+* **Então** o sistema deve:
+
+  * Registrar a perda no banco de dados
+  * Atualizar o estoque do produto
+  * Salvar a movimentação no histórico
+  * Exibir mensagem de sucesso
+  * Redirecionar para a tela anterior ou lista
+
+---
+
+### ⚠️ Cenário — Dados incompletos
+
+* **Dado que** existem campos obrigatórios não preenchidos
+* **Quando** Ana tenta confirmar
+* **Então** o sistema deve:
+
+  * Manter botão desabilitado
+  * Ou exibir mensagem de erro
+  * Impedir envio
+
+---
+
+### ⏳ Cenário — Processamento da ação
+
+* **Dado que** Ana clicou em confirmar
+* **Quando** o sistema estiver processando
+* **Então** deve:
+
+  * Exibir loading no botão
+  * Bloquear novas interações
+
+---
+
+### ⚠️ Cenário — Falha no registro
+
+* **Dado que** ocorreu erro no sistema
+* **Quando** a ação falha
+* **Então** o sistema deve:
+
+  * Exibir mensagem: “Erro ao registrar perda”
+  * Permitir nova tentativa
+  * Não duplicar registro
+
+---
+
+### 🔄 Cenário — Cancelamento
+
+* **Dado que** Ana está na tela de confirmação
+* **Quando** clica em “Cancelar”
+* **Então** o sistema deve:
+
+  * Não registrar nenhuma alteração
+  * Retornar à tela anterior
+
+---
+
+# 🚀 Insight estratégico (nível produto)
+
+Esse botão é o ponto mais crítico do fluxo:
+
+👉 **É aqui que o sistema muda o estoque de verdade**
+
+Se mal projetado:
+
+* Gera erros financeiros
+* Cria retrabalho
+* Perde confiança do usuário
+
+Se bem projetado (como acima):
+
+* Gera segurança
+* Reduz erro humano
+* Aumenta confiabilidade do sistema
+
+---
+
+Aqui está a **História de Usuário completa para o touchpoint “Tela Histórico de Estoque”**, com abordagem de UX/UI sênior — focada em **clareza, rastreabilidade e análise rápida**:
+
+---
+
+# 1. História de Usuário (Narrativa)
+
+* **Como** Ana — gerente de loja de pequeno/médio porte
+* **Eu quero** visualizar o histórico de movimentações de estoque de forma organizada e filtrável
+* **Para** entender o que entrou, saiu ou foi perdido e garantir a confiabilidade dos dados
+
+---
+
+# 2. Detalhes da Tela (Informações + Protótipo Conceitual)
+
+## 📱 **Nome da Tela: Histórico de Estoque**
+
+---
+
+## 🧩 **Wireframe Conceitual (Mobile First)**
+
+```id="historico-ux01"
+┌──────────────────────────────┐
+│ ← Histórico de Estoque       │
+│ Acompanhe movimentações      │
+├──────────────────────────────┤
+
+│ 🔎 Buscar produto            │
+│ ┌──────────────────────────┐ │
+│ │ Nome ou SKU             │ │
+│ └──────────────────────────┘ │
+│                              │
+
+│ 📅 Filtro por período        │
+│ [ Hoje ▼ ]                   │
+│                              │
+
+│ 🔄 Tipo de movimentação      │
+│ [ Todas ▼ ]                  │
+│ (Entrada / Saída / Perda)    │
+│                              │
+├──────────────────────────────┤
+
+│ 📋 Histórico                 │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │ 📉 Perda                 │ │
+│ │ Camiseta Preta           │ │
+│ │ -2 un • 14:32            │ │
+│ │ Motivo: Danificado       │ │
+│ └──────────────────────────┘ │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │ 📈 Entrada               │ │
+│ │ Camiseta Branca          │ │
+│ │ +10 un • 10:15           │ │
+│ │ Nota fiscal: 123         │ │
+│ └──────────────────────────┘ │
+│                              │
+│ ┌──────────────────────────┐ │
+│ │ 📤 Venda                 │ │
+│ │ Camiseta Preta           │ │
+│ │ -1 un • 09:40            │ │
+│ │ Pedido: #1023            │ │
+│ └──────────────────────────┘ │
+│                              │
+│ (scroll)                     │
+│                              │
+├──────────────────────────────┤
+
+│ ⬇ Carregar mais             │
+└──────────────────────────────┘
+```
+
+---
+
+## 🎯 **Estrutura e Elementos da Tela**
+
+### 🔝 Header
+
+* Título: Histórico de Estoque
+* Subtítulo: Acompanhe movimentações
+* Botão voltar
+
+---
+
+### 🔎 Busca
+
+* Campo para buscar por:
+
+  * Nome do produto
+  * SKU
+
+👉 Permite localizar rapidamente um item específico
+
+---
+
+### 📅 Filtro por Período
+
+* Opções:
+
+  * Hoje
+  * Últimos 7 dias
+  * Últimos 30 dias
+  * Personalizado
+
+---
+
+### 🔄 Filtro por Tipo de Movimentação
+
+* Todas
+* Entrada (📈)
+* Saída/Venda (📤)
+* Perda (📉)
+
+👉 **UX crítico:** separa tipos de ação para análise clara
+
+---
+
+### 📋 Lista de Movimentações
+
+Cada item contém:
+
+* Tipo de movimentação (com ícone)
+* Nome do produto
+* Quantidade (+ ou -)
+* Horário/data
+* Informação complementar:
+
+  * Motivo (perda)
+  * Pedido (venda)
+  * Nota fiscal (entrada)
+
+---
+
+### ⬇ Paginação / Scroll
+
+* “Carregar mais” ou scroll infinito
+
+---
+
+## 💡 **Decisões de UX (nível sênior)**
+
+### 1. Escaneabilidade (leitura rápida)
+
+* Ícones + cores por tipo
+* Quantidade com sinal (+ / -)
+
+---
+
+### 2. Rastreabilidade completa
+
+* Cada movimentação tem contexto
+* Permite auditoria simples
+
+---
+
+### 3. Controle emocional (confiança)
+
+* Tudo visível → nada escondido
+* Reduz insegurança do gestor
+
+---
+
+### 4. Análise rápida
+
+* Filtros permitem identificar:
+
+  * Perdas excessivas
+  * Entradas inconsistentes
+  * Volume de vendas
+
+---
+
+# 3. Critérios de Aceitação (BDD)
+
+---
+
+### ✅ Cenário — Visualizar histórico com sucesso
+
+* **Dado que** Ana acessou a tela de histórico de estoque
+* **Quando** a tela é carregada
+* **Então** o sistema deve:
+
+  * Exibir lista de movimentações recentes
+  * Mostrar tipo, produto, quantidade e data
+  * Permitir rolagem
+
+---
+
+### 🔎 Cenário — Buscar produto
+
+* **Dado que** Ana deseja encontrar um item específico
+* **Quando** digita no campo de busca
+* **Então** o sistema deve:
+
+  * Filtrar as movimentações relacionadas
+  * Atualizar a lista em tempo real
+
+---
+
+### 📅 Cenário — Filtrar por período
+
+* **Dado que** Ana seleciona um período
+* **Quando** aplica o filtro
+* **Então** o sistema deve:
+
+  * Exibir apenas movimentações daquele intervalo
+
+---
+
+### 🔄 Cenário — Filtrar por tipo
+
+* **Dado que** Ana seleciona “Perda”
+* **Quando** aplica o filtro
+* **Então** o sistema deve:
+
+  * Mostrar apenas registros de perda
+
+---
+
+### ⚠️ Cenário — Nenhum registro encontrado
+
+* **Dado que** não há movimentações para o filtro aplicado
+* **Quando** a lista é exibida
+* **Então** o sistema deve:
+
+  * Mostrar mensagem: “Nenhuma movimentação encontrada”
+  * Manter layout limpo
+
+---
+
+### ⬇ Cenário — Carregar mais dados
+
+* **Dado que** existem muitos registros
+* **Quando** Ana clica em “Carregar mais”
+* **Então** o sistema deve:
+
+  * Buscar mais dados
+  * Adicionar à lista atual
+
+---
+
+# 🚀 Insight estratégico (nível produto)
+
+Essa tela é o coração do controle:
+
+👉 **Se o histórico é claro → o sistema é confiável**
+
+Com esse design:
+
+* Você transforma dados em controle real
+* Permite auditoria rápida
+* Ajuda decisões estratégicas (ex: reduzir perdas)
 
 
 
 
-# JOÃO : 
+
+# JOÃO FASE 2: 
+
 # 🔐 1. Touchpoint: Tela de Login
 
 ## 1. História de Usuário (Narrativa)
@@ -3219,3 +5405,314 @@ Os pilares aqui foram:
 * **Feedback em tempo real**
 * **Prevenção > correção**
 * **Leitura instantânea (cores + números)**
+
+
+
+## ROBERTO  FASE 2
+
+# 🔐 1. Touchpoint: Tela de Login
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Roberto — empreendedor em transição do manual para digital
+* **Eu quero** acessar rapidamente o sistema pelo celular
+* **Para** começar meu dia e me acostumar com o uso diário sem frustração
+
+---
+
+## 2. Detalhes da Tela
+
+**Título:**
+
+* “Bem-vindo de volta”
+
+**Subtítulo:**
+
+* “Acesse sua conta para acompanhar suas vendas e estoque”
+
+**Campos de entrada:**
+
+* E-mail / usuário
+* Senha (mostrar/ocultar)
+
+**Ações principais:**
+
+* Botão “Entrar”
+* Link “Esqueci minha senha”
+
+**Elemento emocional:**
+
+* “Sinto que é fácil e seguro usar o sistema todos os dias”
+
+---
+
+### 🧩 Wireframe
+
+```id="r2login"
+Bem-vindo de volta
+Acesse sua conta para acompanhar suas vendas e estoque
+
+[E-mail]
+[Senha 👁️]
+
+[ Entrar ]
+Esqueci minha senha
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Roberto acessa o sistema
+
+* **Quando** insere credenciais válidas
+
+* **E** toca em “Entrar”
+
+* **Então** o sistema autentica e mostra o dashboard
+
+* **Dado que** as credenciais estão incorretas
+
+* **Quando** tenta logar
+
+* **Então** o sistema exibe mensagem de erro clara
+
+---
+
+# 📊 2. Touchpoint: Dashboard
+
+## 1. História de Usuário
+
+* **Como** Roberto
+* **Eu quero** visualizar rapidamente informações de vendas e estoque
+* **Para** começar a entender o que cada dado significa
+
+---
+
+## 2. Detalhes da Tela
+
+**Componentes principais:**
+
+* Painel de Vendas do Mês
+* Total de produtos em estoque
+* Alertas visuais para estoque baixo
+* Menu de navegação lateral / inferior
+
+**Elemento emocional:**
+
+* “Estou aprendendo a interpretar meus dados sem me perder”
+
+---
+
+### 🧩 Wireframe
+
+```id="r2dashboard"
+Dashboard
+
+Vendas mês: R$ 1.250
+Produtos cadastrados: 20
+⚠️ Estoque baixo: 3 produtos
+
+Menu: Produtos | Vendas | Relatórios
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Roberto acessa o dashboard
+* **Quando** a tela é carregada
+* **Então** o sistema mostra resumo de vendas, produtos cadastrados e alertas de estoque
+
+---
+
+# 📦 3. Touchpoint: Menu Estoque
+
+## 1. História de Usuário
+
+* **Como** Roberto
+* **Eu quero** acessar a área de estoque
+* **Para** conferir se os produtos estão registrados corretamente
+
+---
+
+## 2. Detalhes da Tela
+
+**Menu lateral / inferior:**
+
+* Item: “Estoque”
+* Badge se há produtos críticos
+
+**Elemento emocional:**
+
+* “Sinto que posso checar meus produtos facilmente”
+
+---
+
+### 🧩 Wireframe
+
+```id="r2menuestoque"
+Menu
+
+Dashboard
+📦 Estoque (3)  
+Vendas
+Relatórios
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Roberto está no sistema
+* **Quando** abre o menu e seleciona “Estoque”
+* **Então** o sistema direciona para a lista de produtos
+
+---
+
+# 📝 4. Touchpoint: Tela Lista de Produtos
+
+## 1. História de Usuário
+
+* **Como** Roberto
+* **Eu quero** consultar a lista de produtos
+* **Para** comparar com meu estoque físico e confirmar registros
+
+---
+
+## 2. Detalhes da Tela
+
+**Campos e componentes:**
+
+* Lista de produtos: nome, código, quantidade em estoque
+* Filtro por estoque baixo
+* Campo de busca rápida
+
+**Elemento emocional:**
+
+* “Sinto que consigo organizar melhor meu estoque digital”
+
+---
+
+### 🧩 Wireframe
+
+```id="r2listaprodutos"
+Estoque
+
+[ Buscar produto... ]
+
+Arroz — 5 🔴
+Leite — 10 🟡
+Refrigerante — 20 🟢
+
+[Filtro: Estoque baixo]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Roberto abriu a tela de produtos
+
+* **Quando** visualiza a lista
+
+* **Então** o sistema mostra quantidade disponível e alerta visual para estoque baixo
+
+* **Dado que** aplica filtro de estoque baixo
+
+* **Quando** confirma
+
+* **Então** apenas produtos críticos aparecem
+
+---
+
+# ⚠️ 5. Touchpoint: Card de Alerta de Estoque
+
+## 1. História de Usuário
+
+* **Como** Roberto
+* **Eu quero** ver alertas de produtos com estoque baixo
+* **Para** perceber rapidamente quais itens precisam atenção
+
+---
+
+## 2. Detalhes da Tela
+
+**Card visual no dashboard:**
+
+* Título: “⚠️ Estoque baixo”
+* Lista resumida de produtos críticos
+* Botão “Ver todos” para abrir a lista completa
+
+**Elemento emocional:**
+
+* “Entendo a utilidade prática do sistema para não faltar produtos”
+
+---
+
+### 🧩 Wireframe
+
+```id="r2alertestoque"
+⚠️ Estoque baixo
+
+Arroz — 3
+Leite — 2
+
+[ Ver todos ]
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** existem produtos com estoque baixo
+* **Quando** Roberto visualiza o card
+* **Então** o sistema destaca os produtos críticos
+* **E** permite navegar para lista completa
+
+---
+
+# 📈 6. Touchpoint: Relatório Produtos Mais Vendidos
+
+## 1. História de Usuário
+
+* **Como** Roberto
+* **Eu quero** consultar relatório de produtos mais vendidos
+* **Para** aprender quais itens têm maior saída e melhorar meu controle
+
+---
+
+## 2. Detalhes da Tela
+
+**Componentes:**
+
+* Lista ou gráfico simples: produto x quantidade vendida
+* Filtro por período (opcional)
+* Destaque visual para top 5 produtos
+
+**Elemento emocional:**
+
+* “Sinto que estou aprendendo a gerir o negócio com dados reais”
+
+---
+
+### 🧩 Wireframe
+
+```id="r2relatorio"
+Produtos mais vendidos
+
+1. Arroz — 15 vendas
+2. Leite — 12 vendas
+3. Refrigerante — 10 vendas
+4. Feijão — 8 vendas
+5. Pão — 6 vendas
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD)
+
+* **Dado que** Roberto acessa relatório
+* **Quando** escolhe período ou filtra
+* **Então** o sistema exibe ranking de produtos mais vendidos
+* **E** ajuda a entender o comportamento das vendas
