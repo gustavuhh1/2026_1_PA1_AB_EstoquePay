@@ -1,0 +1,751 @@
+FASE 1
+
+CARLOS
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos — dono de pequeno varejo tradicional
+* **Eu quero** acessar o sistema inserindo meu e-mail e senha de forma simples e segura na tela de login
+* **Para** entrar no painel do meu negócio e controlar vendas, estoque e lucro com segurança
+
+---
+
+## 2. Detalhes da Tela (Informações na tela e Protótipo Conceitual)
+
+### 📱 Estrutura Geral (Mobile First)
+
+**Topo da tela:**
+
+* Logo do sistema (centralizado)
+* Nome do sistema (ex: “Gestão Fácil”)
+
+**Título principal:**
+
+* “Acesse sua conta”
+
+**Subtítulo:**
+
+* “Entre com seus dados para gerenciar seu mercadinho com segurança”
+
+---
+
+### 🔐 Campos de Entrada
+
+1. **Campo: E-mail**
+
+   * Placeholder: “Digite seu e-mail”
+   * Tipo: teclado com “@” facilitado
+   * Validação:
+
+     * Campo obrigatório
+     * Formato de e-mail válido
+   * Feedback de erro:
+
+     * “Digite um e-mail válido”
+
+2. **Campo: Senha**
+
+   * Placeholder: “Digite sua senha”
+   * Tipo: senha (com botão de mostrar/ocultar 👁️)
+   * Validação:
+
+     * Campo obrigatório
+   * Feedback de erro:
+
+     * “Senha incorreta” (após tentativa)
+
+---
+
+### 🎯 Ações principais
+
+* **Botão primário:**
+
+  * Texto: “Entrar”
+  * Estado:
+
+    * Desabilitado até preenchimento válido
+    * Loading ao clicar
+
+* **Link secundário:**
+
+  * “Esqueci minha senha”
+  * Direciona para recuperação
+
+---
+
+### 🧭 Feedback e Estados
+
+* **Erro de autenticação:**
+
+  * Mensagem clara e não técnica:
+
+    * “E-mail ou senha não conferem”
+  * Destaque visual (vermelho leve)
+
+* **Sucesso:**
+
+  * Transição direta para o Dashboard do Owner
+  * Microinteração (loading breve)
+
+---
+
+### 🔒 Elementos de Confiança (UX emocional)
+
+* Texto auxiliar discreto:
+
+  * “Seus dados estão protegidos e acessíveis apenas por você e pessoas autorizadas”
+* Ícone de cadeado 🔒 próximo ao botão
+
+---
+
+### 🧩 Estrutura Visual Simplificada (Wireframe mental)
+
+```
+[Logo]
+
+Acesse sua conta
+Gerencie seu mercadinho com segurança
+
+[E-mail            ]
+[Senha        👁️  ]
+
+(Esqueci minha senha)
+
+[ Entrar ]
+
+🔒 Seus dados estão protegidos
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD — Behavior Driven Development)
+
+### ✅ Cenário 1: Login com sucesso
+
+* **Dado que** Carlos está na tela de login
+* **Quando** ele preenche um e-mail válido e uma senha correta
+* **E** toca no botão “Entrar”
+* **Então** o sistema valida as credenciais com sucesso
+* **E** redireciona Carlos para o Dashboard do Owner
+
+---
+
+### ❌ Cenário 2: E-mail inválido
+
+* **Dado que** Carlos está na tela de login
+* **Quando** ele insere um e-mail em formato inválido
+* **E** tenta continuar
+* **Então** o sistema exibe a mensagem “Digite um e-mail válido”
+* **E** impede o envio do formulário
+
+---
+
+### ❌ Cenário 3: Senha incorreta
+
+* **Dado que** Carlos inseriu um e-mail válido
+* **Quando** ele digita uma senha incorreta
+* **E** toca no botão “Entrar”
+* **Então** o sistema exibe “E-mail ou senha não conferem”
+* **E** mantém o usuário na tela de login
+
+---
+
+### ⚠️ Cenário 4: Campos obrigatórios não preenchidos
+
+* **Dado que** Carlos está na tela de login
+* **Quando** ele não preenche um ou ambos os campos
+* **E** tenta clicar em “Entrar”
+* **Então** o botão permanece desabilitado
+* **E** os campos obrigatórios são destacados
+
+---
+
+### 🔐 Cenário 5: Acesso seguro percebido
+
+* **Dado que** Carlos está na tela de login
+* **Quando** ele visualiza a interface
+* **Então** ele percebe elementos de segurança (mensagem + ícone)
+* **E** sente confiança de que seus dados estão protegidos
+
+---
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos — dono de pequeno varejo tradicional
+* **Eu quero** cadastrar novos produtos informando nome, código e quantidade inicial de estoque de forma simples
+* **Para** manter meu estoque organizado e ter controle digital do que entra e sai do meu mercadinho
+
+---
+
+## 2. Detalhes da Tela (Informações na tela e Protótipo Conceitual)
+
+### 📱 Estrutura Geral (Mobile First)
+
+**Topo da tela:**
+
+* Botão de voltar (←)
+* Título: “Cadastrar Produto”
+
+**Subtítulo:**
+
+* “Adicione um novo item ao seu estoque”
+
+---
+
+### 🧾 Campos de Entrada
+
+1. **Campo: Nome do Produto**
+
+   * Placeholder: “Ex: Arroz 5kg”
+   * Tipo: texto
+   * Validação:
+
+     * Obrigatório
+     * Mínimo de 2 caracteres
+   * Feedback de erro:
+
+     * “Informe o nome do produto”
+
+---
+
+2. **Campo: Código do Produto**
+
+   * Placeholder: “Ex: 7891234567890”
+   * Tipo: numérico (ou alfanumérico)
+   * Sugestão UX:
+
+     * Botão opcional: “Escanear código de barras”
+   * Validação:
+
+     * Obrigatório
+     * Não duplicado no sistema
+   * Feedback de erro:
+
+     * “Código já cadastrado”
+
+---
+
+3. **Campo: Quantidade Inicial em Estoque**
+
+   * Placeholder: “Ex: 50”
+   * Tipo: numérico (teclado numérico)
+   * Validação:
+
+     * Obrigatório
+     * Valor ≥ 0
+   * Feedback de erro:
+
+     * “Informe uma quantidade válida”
+
+---
+
+### 🎯 Ações principais
+
+* **Botão primário:**
+
+  * Texto: “Salvar produto”
+  * Estado:
+
+    * Desabilitado até todos os campos válidos
+    * Loading ao salvar
+
+---
+
+### 🧭 Feedback e Estados
+
+* **Erro de validação:**
+
+  * Mensagens abaixo dos campos
+  * Destaque visual (borda vermelha leve)
+
+* **Sucesso:**
+
+  * Mensagem de confirmação:
+
+    * “Produto cadastrado com sucesso!”
+  * Opções após salvar:
+
+    * “Cadastrar outro produto”
+    * “Voltar para produtos”
+
+---
+
+### 📦 Elementos de apoio emocional
+
+* Texto de reforço:
+
+  * “Mantenha seu estoque sempre atualizado e sob controle”
+* Ícone ilustrativo (caixa 📦 ou prateleira)
+
+---
+
+### 🧩 Estrutura Visual Simplificada (Wireframe mental)
+
+```
+← Cadastrar Produto
+
+Adicione um novo item ao seu estoque
+
+[ Nome do produto        ]
+[ Código do produto   📷 ]
+[ Quantidade inicial     ]
+
+[ Salvar produto ]
+
+📦 Seu estoque organizado começa aqui
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD — Behavior Driven Development)
+
+### ✅ Cenário 1: Cadastro de produto com sucesso
+
+* **Dado que** Carlos está na tela de cadastro de produto
+* **Quando** ele preenche o nome, código único e quantidade inicial válida
+* **E** toca no botão “Salvar produto”
+* **Então** o sistema cadastra o produto com sucesso
+* **E** exibe a mensagem “Produto cadastrado com sucesso!”
+* **E** oferece opções de continuar cadastrando ou voltar
+
+---
+
+### ❌ Cenário 2: Campo nome não preenchido
+
+* **Dado que** Carlos está na tela de cadastro
+* **Quando** ele deixa o campo nome vazio
+* **E** tenta salvar
+* **Então** o sistema exibe “Informe o nome do produto”
+* **E** impede o envio
+
+---
+
+### ❌ Cenário 3: Código duplicado
+
+* **Dado que** já existe um produto com o mesmo código
+* **Quando** Carlos insere esse código
+* **E** tenta salvar
+* **Então** o sistema exibe “Código já cadastrado”
+* **E** impede o cadastro
+
+---
+
+### ❌ Cenário 4: Quantidade inválida
+
+* **Dado que** Carlos está cadastrando um produto
+* **Quando** ele informa uma quantidade negativa ou inválida
+* **E** tenta salvar
+* **Então** o sistema exibe “Informe uma quantidade válida”
+* **E** bloqueia a ação
+
+---
+
+### 🔄 Cenário 5: Cadastro contínuo (fluxo eficiente)
+
+* **Dado que** Carlos acabou de cadastrar um produto com sucesso
+* **Quando** ele escolhe “Cadastrar outro produto”
+* **Então** o sistema limpa os campos
+* **E** mantém Carlos na mesma tela para agilizar novos cadastros
+
+---
+
+### 📷 Cenário 6: Uso do leitor de código de barras (opcional)
+
+* **Dado que** o dispositivo possui câmera disponível
+* **Quando** Carlos toca em “Escanear código de barras”
+* **Então** o sistema ativa a câmera
+* **E** preenche automaticamente o campo de código ao reconhecer o código válido
+
+---
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos — dono de pequeno varejo tradicional
+* **Eu quero** visualizar de forma simples e imediata o total de vendas do mês e o lucro estimado no dashboard
+* **Para** entender rapidamente se meu negócio está dando lucro ou prejuízo e tomar decisões com mais segurança
+
+---
+
+## 2. Detalhes da Tela (Informações na tela e Protótipo Conceitual)
+
+### 📱 Estrutura Geral (Mobile First — Dashboard)
+
+**Topo da tela:**
+
+* Saudação personalizada:
+
+  * “Olá, Carlos 👋”
+* Data/resumo:
+
+  * “Resumo de Março”
+
+---
+
+### 💰 Seção Principal (Resumo Financeiro)
+
+**Card 1: Vendas do Mês**
+
+* Título: “Vendas do mês”
+* Valor em destaque:
+
+  * Ex: “R$ 12.450,00”
+* Indicador visual:
+
+  * Seta ↑ ou ↓ (comparado ao mês anterior)
+* Subtexto:
+
+  * “+8% em relação ao mês passado”
+
+---
+
+**Card 2: Lucro Estimado**
+
+* Título: “Lucro estimado”
+* Valor em destaque:
+
+  * Ex: “R$ 3.120,00”
+* Indicador visual:
+
+  * Cor:
+
+    * Verde → lucro positivo
+    * Vermelho → prejuízo
+* Subtexto:
+
+  * “Baseado nas vendas e custos cadastrados”
+
+---
+
+### 📊 Elementos Visuais de Apoio
+
+* **Mini gráfico (linha ou barras):**
+
+  * Evolução de vendas ao longo do mês
+  * Scroll horizontal (dias)
+
+---
+
+### 🎯 Ações secundárias
+
+* Botão/link:
+
+  * “Ver relatório completo”
+* Botão:
+
+  * “Registrar nova venda”
+
+---
+
+### 🧭 Feedback e Estados
+
+* **Estado carregando:**
+
+  * Skeleton loaders nos cards
+
+* **Sem dados:**
+
+  * Mensagem:
+
+    * “Você ainda não registrou vendas este mês”
+  * CTA:
+
+    * “Registrar primeira venda”
+
+---
+
+### 🧠 Elementos emocionais (clareza e confiança)
+
+* Frase de apoio dinâmica:
+
+  * Se lucro positivo:
+
+    * “Seu negócio está no caminho certo 📈”
+  * Se prejuízo:
+
+    * “Atenção: reveja seus custos e vendas”
+
+---
+
+### 🧩 Estrutura Visual Simplificada (Wireframe mental)
+
+```id="z7kq91"
+Olá, Carlos 👋
+Resumo de Março
+
+[ Vendas do mês     ]
+  R$ 12.450,00
+  +8% ↑
+
+[ Lucro estimado    ]
+  R$ 3.120,00
+  📈
+
+[ Gráfico de vendas ]
+
+[ Ver relatório completo ]
+[ + Nova venda ]
+
+💡 Seu negócio está no caminho certo
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD — Behavior Driven Development)
+
+### ✅ Cenário 1: Visualização de resumo financeiro com dados
+
+* **Dado que** Carlos fez login no sistema
+* **Quando** ele acessa o Dashboard do Owner
+* **E** possui vendas registradas no mês atual
+* **Então** o sistema exibe o total de vendas do mês
+* **E** mostra o lucro estimado com base nos dados cadastrados
+* **E** apresenta indicadores visuais de desempenho
+
+---
+
+### ⚠️ Cenário 2: Sem vendas registradas
+
+* **Dado que** Carlos acessa o dashboard
+* **Quando** não existem vendas registradas no mês atual
+* **E** a tela é carregada
+* **Então** o sistema exibe a mensagem “Você ainda não registrou vendas este mês”
+* **E** apresenta o botão “Registrar primeira venda”
+
+---
+
+### 📉 Cenário 3: Lucro negativo (prejuízo)
+
+* **Dado que** Carlos possui vendas registradas
+* **Quando** os custos superam as receitas
+* **E** o lucro estimado é negativo
+* **Então** o sistema exibe o valor em vermelho
+* **E** apresenta mensagem de alerta sobre prejuízo
+
+---
+
+### 📊 Cenário 4: Visualização do gráfico
+
+* **Dado que** existem dados de vendas ao longo do mês
+* **Quando** Carlos acessa o dashboard
+* **E** visualiza a seção de gráfico
+* **Então** o sistema exibe a evolução das vendas por dia
+* **E** permite leitura simples e rápida
+
+---
+
+### 🔄 Cenário 5: Atualização dos dados
+
+* **Dado que** Carlos registra uma nova venda
+* **Quando** ele retorna ao dashboard
+* **E** a tela é atualizada
+* **Então** os valores de vendas e lucro são recalculados
+* **E** exibidos corretamente em tempo quase real
+
+---
+
+## 1. História de Usuário (Narrativa)
+
+* **Como** Carlos — dono de pequeno varejo tradicional
+* **Eu quero** visualizar um histórico de acessos e ações realizadas no sistema
+* **Para** conferir quem utilizou o sistema e garantir que nenhuma informação foi alterada sem meu conhecimento
+
+---
+
+## 2. Detalhes da Tela (Informações na tela e Protótipo Conceitual)
+
+### 📱 Estrutura Geral (Mobile First — Auditoria / Logs)
+
+**Topo da tela:**
+
+* Botão de voltar (←)
+* Título: “Auditoria e Acessos”
+
+**Subtítulo:**
+
+* “Acompanhe quem acessou e o que foi feito no sistema”
+
+---
+
+### 🔍 Filtros (colapsáveis para não poluir a tela)
+
+* **Período:**
+
+  * Hoje | Últimos 7 dias | Últimos 30 dias | Personalizado
+* **Usuário:**
+
+  * Dropdown: “Todos os usuários” / nomes cadastrados
+* **Tipo de ação:**
+
+  * Ex: Login, Cadastro, Edição, Exclusão
+
+---
+
+### 📋 Lista de Logs (principal)
+
+Cada item da lista deve conter:
+
+* **Nome do usuário**
+
+  * Ex: “Carlos”, “Funcionário João”
+* **Ação realizada**
+
+  * Ex: “Editou produto”, “Registrou venda”, “Login realizado”
+* **Data e hora**
+
+  * Ex: “18/03 às 14:32”
+* **Status (opcional):**
+
+  * Sucesso / Falha
+* **Indicador visual:**
+
+  * Ícones:
+
+    * 🔐 Login
+    * ✏️ Edição
+    * ➕ Cadastro
+    * ❌ Exclusão
+
+---
+
+### 🔎 Detalhamento da ação (expansível ou nova tela)
+
+Ao clicar em um item:
+
+* Descrição completa:
+
+  * “Produto ‘Arroz 5kg’ teve o estoque alterado de 30 para 20”
+* Identificação do dispositivo (opcional):
+
+  * “Acesso via celular”
+* Localização aproximada (opcional)
+* ID da ação (para rastreio técnico)
+
+---
+
+### 🎯 Ações secundárias
+
+* Botão:
+
+  * “Exportar relatório” (PDF/Excel)
+* Campo de busca:
+
+  * “Buscar por ação ou usuário”
+
+---
+
+### 🧭 Feedback e Estados
+
+* **Sem registros:**
+
+  * Mensagem:
+
+    * “Nenhuma atividade encontrada nesse período”
+* **Carregando:**
+
+  * Skeleton loader na lista
+
+---
+
+### 🔒 Elementos emocionais (segurança e controle)
+
+* Texto de reforço:
+
+  * “Todas as ações ficam registradas para sua segurança”
+* Ícone de escudo 🛡️ no topo
+
+---
+
+### 🧩 Estrutura Visual Simplificada (Wireframe mental)
+
+```id="k29xlp"
+← Auditoria e Acessos
+
+Acompanhe quem acessou o sistema
+
+[ Filtros 🔽 ]
+
+🔐 Carlos
+Login realizado
+18/03 às 08:12
+
+✏️ João
+Editou produto
+18/03 às 10:45
+
+➕ Carlos
+Cadastrou produto
+18/03 às 11:20
+
+[ Buscar... ]
+
+[ Exportar relatório ]
+
+🛡️ Todas as ações são registradas
+```
+
+---
+
+## 3. Critérios de Aceitação (BDD — Behavior Driven Development)
+
+### ✅ Cenário 1: Visualização de logs de atividades
+
+* **Dado que** Carlos está logado no sistema
+* **Quando** ele acessa o menu “Auditoria / Logs”
+* **E** existem registros de atividades
+* **Então** o sistema exibe a lista de acessos e ações realizadas
+* **E** mostra usuário, ação e data/hora de cada registro
+
+---
+
+### 🔍 Cenário 2: Filtrar por período
+
+* **Dado que** Carlos está na tela de auditoria
+* **Quando** ele seleciona o filtro “Últimos 7 dias”
+* **E** aplica o filtro
+* **Então** o sistema exibe apenas os registros desse período
+
+---
+
+### 👤 Cenário 3: Filtrar por usuário
+
+* **Dado que** existem múltiplos usuários cadastrados
+* **Quando** Carlos seleciona um usuário específico
+* **E** aplica o filtro
+* **Então** o sistema mostra apenas ações realizadas por esse usuário
+
+---
+
+### 🔎 Cenário 4: Visualizar detalhes de uma ação
+
+* **Dado que** Carlos vê a lista de logs
+* **Quando** ele toca em um item da lista
+* **E** acessa os detalhes
+* **Então** o sistema exibe informações completas da ação realizada
+
+---
+
+### ⚠️ Cenário 5: Nenhum registro encontrado
+
+* **Dado que** Carlos aplica filtros sem correspondência
+* **Quando** não existem registros para os critérios
+* **E** a busca é executada
+* **Então** o sistema exibe “Nenhuma atividade encontrada nesse período”
+
+---
+
+### 📤 Cenário 6: Exportação de relatório
+
+* **Dado que** Carlos deseja guardar ou analisar dados
+* **Quando** ele toca em “Exportar relatório”
+* **E** escolhe o formato
+* **Então** o sistema gera o arquivo com os registros exibidos
+* **E** permite download ou compartilhamento
+
+---
+
+### 🔒 Cenário 7: Percepção de segurança
+
+* **Dado que** Carlos acessa a tela de auditoria
+* **Quando** ele visualiza o histórico detalhado de ações
+* **Então** ele entende que todas as atividades são rastreadas
+* **E** sente maior confiança na integridade do sistema
